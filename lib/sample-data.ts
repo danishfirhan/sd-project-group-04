@@ -32,10 +32,10 @@ Recorded at Chad VanGaalen's Yoko Eno studio and mixed by Graham Walsh (Holy Fuc
     },
 
     {
-    name: 'Laufey – Bewitched Album (Various)',
-    slug: 'laufey-bewitched-album-various',
-    category: 'CD',
-    images: ['/assets/images/laufey-bewitched-1.png', '/assets/images/laufey-bewitched-4.png', '/assets/images/laufey-bewitched-5.png'],
+    name: 'Laufey – Bewitched Album (Vinyl)',
+    slug: 'laufey-bewitched-album-vinyl',
+    category: 'Vinyl',
+    images: ['/assets/images/bewitched-1.png', '/assets/images/bewitched-4.png', '/assets/images/bewitched-5.png'],
     price: '120.00',
     brand: 'Laufey',
     rating: '4.8',
@@ -64,7 +64,7 @@ Track Listing:
 
 Embark on a spellbinding journey with Laufey's "Bewitched," an album that perfectly balances contemporary jazz with timeless elegance.`,
     isFeatured: true,
-    banner: '/assets/images/laufey-bewitched-banner.jpg',
+    banner: '/assets/images/bewitched-banner.jpg',
     },
 
     {
@@ -106,7 +106,7 @@ The album marks the band's first release in seven years and has garnered widespr
     brand: 'Heavener',
     rating: '4.6',
     numReviews: 50,
-    stock: 50,
+    stock: 0,
     description:
         `Heavener's "As Suns and Love Retreat" transports listeners to a dreamlike sonic landscape. This Pro-CD release serves as a pilgrimage into the warmth of celestial suns and the expanses of love, featuring atmospheric textures that oscillate between serene and intense emotional moments.
 
