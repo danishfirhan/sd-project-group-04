@@ -71,7 +71,7 @@ Embark on a spellbinding journey with Laufey's "Bewitched," an album that perfec
     name: 'The Strokes – The New Abnormal (CD)',
     slug: 'the-strokes-the-new-abnormal-cd',
     category: 'CD',
-    images: ['/assets/images/strokes-tna.webp'],
+    images: ['/assets/images/the-strokes-tna.webp'],
     price: '70.00',
     brand: 'The Strokes',
     rating: '4.9',
