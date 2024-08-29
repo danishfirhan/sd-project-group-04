@@ -12,3 +12,9 @@ limit: 4,
 })
 return data
 }
+
+export async function getProductBySlug(slug: string) {
+return await db.query.products.findFirst({
+    where: eq(products.slug, slug),
+})
+}
