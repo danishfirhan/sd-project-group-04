@@ -1,4 +1,21 @@
+import { hashSync } from "bcrypt-ts-edge"
+
 const sampleData = {
+
+users: [
+    {
+        name: 'Danish',
+        email: 'admin@example.com',
+        password: hashSync('123456', 10),
+        role: 'admin',
+    },
+    {
+        name: 'Afiqah',
+        email: 'afiqah@example.com',
+        password: hashSync('123456', 10),
+        role: 'user',
+    },
+    ],
 products: [
     {
     name: 'Alvvays – Self-Titled Album (Cassette)',
