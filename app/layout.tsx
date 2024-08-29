@@ -1,15 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-import { Poppins as FontSans } from "next/font/google";
-import { cn } from "@/lib/utils"
-const fontSans = FontSans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-sans",
-});
-
+import React from 'react';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,14 +14,64 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <body className="min-h-screen bg-background font-sans antialiased">
+        {children}
+      </body>
+    </html>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*original version 
+import type { Metadata } from "next";
+import "./globals.css";
+
+import { Poppins as FontSans } from "next/font/google";
+import { cn } from "@/lib/utils"
+import React from 'react'
+const fontSans = FontSans({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-sans",
+}); 
+
+
+export const metadata: Metadata = {
+  title: "MusicRecords2U",
+  description: "Your Online Music Haven",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
     <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+        fontSans.variable
         )}
       >
         {children}
         </body>
     </html>
   );
-}
+} */
