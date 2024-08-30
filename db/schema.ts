@@ -1,4 +1,4 @@
-import { CartItem } from '@/types';
+import { CartItem, ShippingAddress } from '@/types'
 import {
 boolean,
 integer,
@@ -22,6 +22,7 @@ role: text('role').notNull().default('user'),
 password: text('password'),
 emailVerified: timestamp("emailVerified", { mode: "date" }),
 image: text("image"),
+address: json('address').$type<ShippingAddress>(),
 });
 
 // ACCOUNTS

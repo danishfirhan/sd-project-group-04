@@ -39,3 +39,19 @@ export const round2 = (value: number | string) => {
     throw new Error('value is not a number nor a string')
   }
 }
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat('en-MY', {
+  currency: 'MYR',
+  style: 'currency',
+  minimumFractionDigits: 2,
+})
+
+export function formatCurrency(amount: number | string | null) {
+  if (typeof amount === 'number') {
+    return CURRENCY_FORMATTER.format(amount)
+  } else if (typeof amount === 'string') {
+    return CURRENCY_FORMATTER.format(Number(amount))
+  } else {
+    return 'NaN'
+  }
+}
