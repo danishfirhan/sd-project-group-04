@@ -47,3 +47,8 @@ export const shippingAddressSchema = z.object({
     lat: z.number().optional(),
     lng: z.number().optional(),
 })
+
+export const updateProfileSchema = z.object({
+    name: z.string().min(3, 'Name must be at least 3 characters'),
+    email: z.string().email().min(3, 'Email must be at least 3 characters'),
+})
