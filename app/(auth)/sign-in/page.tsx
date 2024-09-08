@@ -50,6 +50,12 @@ return (
     </CardHeader>
     <CardContent className="space-y-4">
         <CredentialsSignInForm />
+        {/* Add Forgot Password link here */}
+        <div className="text-center">
+            <Link href="/forgot-password" className="text-sm text-blue-500 hover:underline">
+            Forgot your password?
+        </Link>
+        </div>
     </CardContent>
     </Card>
 </div>
