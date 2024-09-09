@@ -27,6 +27,7 @@ title: 'Settings',
 href: '/admin/settings',
 },
 ]
+
 export default function MainNav({
 className,
 ...props
@@ -43,7 +44,7 @@ return (
         href={item.href}
         className={cn(
         'text-sm font-medium transition-colors hover:text-primary',
-        pathname.includes(item.href) ? '' : 'text-muted-foreground'
+        pathname && pathname.includes(item.href) ? '' : 'text-muted-foreground'
         )}
     >
         {item.title}
