@@ -51,6 +51,10 @@
    - Click Sign In button
    - Enter admin email "admin@example.com" and password "123456" and click Sign In
 
+7. View Database
+
+   - Run npx drizzle-kit studio in terminal
+   - Open https://local.drizzle.studio/ in your browser
 
 ## Contact Developer
 
