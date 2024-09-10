@@ -8,7 +8,7 @@ import { products } from '@/db/schema'
 export async function getLatestProducts() {
 const data = await db.query.products.findMany({
 orderBy: [desc(products.createdAt)],
-limit: 4,
+limit: 12,
 })
 return data
 }

@@ -6,6 +6,9 @@ const Menu = () => {
     return (
         <div className="flex justify-end gap-3">
             <nav className="md:flex hidden w-full max-w-xs gap-1">
+            <Link href="/shop" className="p-2 whitespace-nowrap">
+                    Shop
+                </Link>
             <Link href="/about-us" className="p-2 whitespace-nowrap">
                     About Us
                 </Link>
