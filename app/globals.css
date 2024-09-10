@@ -33,7 +33,7 @@
   --chart-5: 27 87% 67%;
 }
 
-.dark {
+:root[class~='dark'] {
   --background: 20 14.3% 4.1%;
   --foreground: 60 9.1% 97.8%;
   --card: 20 14.3% 4.1%;

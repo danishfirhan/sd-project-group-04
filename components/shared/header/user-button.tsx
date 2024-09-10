@@ -9,6 +9,8 @@ DropdownMenuLabel,
 DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SignOut } from '@/lib/actions/user.actions'
+import ModeToggle from './mode-toggle'
+
 export default async function UserButton() {
 const session = await auth()
 if (!session)
@@ -72,6 +74,7 @@ return (
             </Button>
             </form>
         </DropdownMenuItem>
+        <ModeToggle />
         </DropdownMenuContent>
     </DropdownMenu>
     </div>
