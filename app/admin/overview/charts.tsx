@@ -11,7 +11,7 @@ return (
 <ResponsiveContainer width="100%" height={350}>
     <BarChart data={salesData}>
     <XAxis
-        dataKey="_id"
+        dataKey="months"
         stroke="#888888"
         fontSize={12}
         tickLine={false}
