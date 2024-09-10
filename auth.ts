@@ -55,6 +55,7 @@ callbacks: {
 
     jwt: async ({ token, user, trigger, session }: any) => {
     if (user) {
+        token.role = user.role
         if (trigger === 'signIn' || trigger === 'signUp') {
         const sessionCartId = cookies().get('sessionCartId')?.value
         if (!sessionCartId) throw new Error('Session Cart Not Found')
