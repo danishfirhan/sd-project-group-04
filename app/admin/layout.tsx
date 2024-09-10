@@ -1,36 +1,36 @@
-'use client'
+import { APP_NAME } from '@/lib/constants'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import MainNav from './main-nav'
+import Menu from '@/components/shared/header/menu'
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-
-export default function Charts({
-data: { salesData },
+export default async function AdminLayout({
+children,
 }: {
-data: { salesData: { months: string; totalSales: number }[] }
+children: React.ReactNode
 }) {
 return (
-<ResponsiveContainer width="100%" height={350}>
-    <BarChart data={salesData}>
-    <XAxis
-        dataKey="_id"
-        stroke="#888888"
-        fontSize={12}
-        tickLine={false}
-        axisLine={false}
-    />
-    <YAxis
-        stroke="#888888"
-        fontSize={12}
-        tickLine={false}
-        axisLine={false}
-        tickFormatter={(value) => `$${value}`}
-    />
-    <Bar
-        dataKey="totalSales"
-        fill="currentColor"
-        radius={[4, 4, 0, 0]}
-        className="fill-primary"
-    />
-    </BarChart>
-</ResponsiveContainer>
+<>
+    <div className="flex flex-col">
+    <div className="border-b">
+        <div className="flex h-16 items-center px-4">
+        <Link href="/" className="w-36">
+            <Image
+            src="/assets/icons/logo.svg"
+            width={48}
+            height={48}
+            alt={`${APP_NAME} logo`}
+            />
+        </Link>
+        <MainNav className="mx-6" />
+        <div className="ml-auto flex items-center space-x-4">
+            <Menu />
+        </div>
+        </div>
+    </div>
+    <div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
+    </div>
+</>
 )
 }
