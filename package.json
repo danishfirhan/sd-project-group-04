@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.33.0",
+    "drizzle-zod": "^0.5.1",
     "embla-carousel-autoplay": "^8.2.1",
     "embla-carousel-react": "^8.2.1",
     "lucide-react": "^0.436.0",
