@@ -56,7 +56,7 @@ return (
             </Link>
         </DropdownMenuItem>
 
-        {session.user.role === 'admin' && (
+        {session.user.role === 'admin' || session.user.role === 'staff' && (
             <DropdownMenuItem>
             <Link className="w-full" href="/admin/overview">
                 Admin
