@@ -186,3 +186,11 @@ order: one(orders, {
     references: [orders.id],
 }),
 }))
+
+export const feedbacks = pgTable("feedbacks", {
+    id: uuid('id').defaultRandom().primaryKey().notNull(),
+    name: text('name').notNull(),
+    email: text('email').notNull(),
+    message: text('message').notNull(),
+    createdAt: timestamp('createdAt').defaultNow().notNull(),
+});

@@ -23,6 +23,10 @@ title: 'Users',
 href: '/admin/users',
 },
 {
+title: 'Feedbacks',
+href: '/admin/feedbacks',
+},
+{
 title: 'Settings',
 href: '/admin/settings',
 },

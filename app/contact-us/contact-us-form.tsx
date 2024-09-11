@@ -15,11 +15,28 @@ message: string;
 export default function ContactUsForm() {
 const { register, handleSubmit, formState: { errors } } = useForm<ContactFormInputs>();
 
-const onSubmit: SubmitHandler<ContactFormInputs> = (data) => {
-// Handle form submission, e.g., sending data to the server
-console.log(data);
-alert('Message sent successfully');
+const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
+try {
+    const response = await fetch('/api/feedback', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+    alert('Message sent successfully');
+    } else {
+    alert('Failed to send message');
+    }
+} catch (error) {
+    console.error(error);
+    alert('Error submitting message');
+}
 };
+
 
 return (
 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
