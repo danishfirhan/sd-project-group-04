@@ -10,7 +10,7 @@ return (
         <ShoppingBag />
         <div className="text-sm font-bold">Free Shipping</div>
         <div className="text-sm text-muted-foreground">
-            Free shipping for order above $100
+            Free shipping for order above RM 100
         </div>
         </div>
         <div className="space-y-2">

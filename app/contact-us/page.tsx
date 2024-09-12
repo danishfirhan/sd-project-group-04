@@ -8,7 +8,7 @@ return (
     <section className="mb-12">
     <h1 className="text-4xl font-bold text-center mb-6">Get in Touch with MusicRecords2U</h1>
     <p className="text-lg leading-relaxed text-center">
-        Have any questions? Reach out to us!
+        Have any questions or feedback? Reach out to us!
     </p>
     </section>
 

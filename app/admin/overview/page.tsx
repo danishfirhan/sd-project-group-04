@@ -22,8 +22,9 @@ title: `Admin Dashboard - ${APP_NAME}`,
 
 export default async function DashboardPage() {
 const session = await auth()
-if (session?.user.role !== 'admin')
-throw new Error('admin permission required')
+if (session?.user.role !== 'admin' && session?.user.role !== 'staff') {
+throw new Error('Admin or staff permission required')
+}
 
 const summary = await getOrderSummary()
 
