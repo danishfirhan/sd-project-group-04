@@ -22,7 +22,7 @@ return (
         fontSize={12}
         tickLine={false}
         axisLine={false}
-        tickFormatter={(value) => `$${value}`}
+        tickFormatter={(value) => `RM ${value}`} // Updated to RM instead of $
     />
     <Bar
         dataKey="totalSales"
