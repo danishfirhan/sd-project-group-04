@@ -158,19 +158,18 @@ return { success: false, message: formatError(error) }
 }
 
 // DELETE
-export async function deleteOrder(id: string) {
+/* export async function deleteOrder(id: string) {
 try {
     await db.delete(orders).where(eq(orders.id, id))
     revalidatePath('/admin/orders')
-    return {
+    return 
     success: true,
     message: 'Order deleted successfully',
     }
 } catch (error) {
     return { success: false, message: formatError(error) }
 }
-}
-
+*/
 // UPDATE
 export async function createPayPalOrder(orderId: string) {
 try {
