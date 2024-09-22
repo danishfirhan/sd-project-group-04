@@ -31,6 +31,7 @@ title: 'Settings',
 href: '/admin/settings',
 },
 ]
+
 export default function MainNav({
 className,
 ...props
@@ -38,7 +39,7 @@ className,
 const pathname = usePathname()
 return (
 <nav
-    className={cn('flex items-center space-x-4 lg:space-x-6', className)}
+    className={cn('space-y-4', className)} // Stacking links vertically
     {...props}
 >
     {links.map((item) => (
@@ -47,7 +48,7 @@ return (
         href={item.href}
         className={cn(
         'text-sm font-medium transition-colors hover:text-primary',
-        pathname.includes(item.href) ? '' : 'text-muted-foreground'
+        pathname.includes(item.href) ? 'text-primary' : 'text-muted-foreground'
         )}
     >
         {item.title}
