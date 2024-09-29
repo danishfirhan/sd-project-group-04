@@ -22,14 +22,20 @@ import Link from 'next/link'
 import {
     approvePayPalOrder,
     createPayPalOrder,
+    deliverOrder,
+    updateOrderToPaidByCOD,
 } from '@/lib/actions/order.actions'
+import { useTransition } from 'react'
+import { Button } from '@/components/ui/button'
 
 export default function OrderDetailsForm({
     order,
     paypalClientId,
+    isAuthorized, // Updated prop name
 }: {
     order: Order
     paypalClientId: string
+    isAuthorized: boolean
 }) {const {
 shippingAddress,
 orderItems,
@@ -71,6 +77,49 @@ toast({
 description: res.message,
 variant: res.success ? 'default' : 'destructive',
 })
+}
+
+const MarkAsPaidButton = () => {
+const [isPending, startTransition] = useTransition()
+const { toast } = useToast()
+return (
+    <Button
+    type="button"
+    disabled={isPending}
+    onClick={() =>
+        startTransition(async () => {
+        const res = await updateOrderToPaidByCOD(order.id)
+        toast({
+            variant: res.success ? 'default' : 'destructive',
+            description: res.message,
+        })
+        })
+    }
+    >
+    {isPending ? 'processing...' : 'Mark As Paid'}
+    </Button>
+)
+}
+const MarkAsDeliveredButton = () => {
+const [isPending, startTransition] = useTransition()
+const { toast } = useToast()
+return (
+    <Button
+    type="button"
+    disabled={isPending}
+    onClick={() =>
+        startTransition(async () => {
+        const res = await deliverOrder(order.id)
+        toast({
+            variant: res.success ? 'default' : 'destructive',
+            description: res.message,
+        })
+        })
+    }
+    >
+    {isPending ? 'processing...' : 'Mark As Delivered'}
+    </Button>
+)
 }
 return (
 <>
@@ -180,6 +229,17 @@ return (
                 </PayPalScriptProvider>
             </div>
             )}
+
+            {isAuthorized && !isPaid && (
+                <div className="inline-block mr-4">
+                    <MarkAsPaidButton />
+                </div>
+            )}
+            {isAuthorized && !isDelivered && (
+                <MarkAsDeliveredButton />
+            )}
+
+
         </CardContent>
         </Card>
     </div>

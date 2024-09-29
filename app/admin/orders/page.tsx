@@ -15,20 +15,26 @@ import { APP_NAME } from '@/lib/constants'
 import { formatCurrency, formatDateTime, formatId } from '@/lib/utils'
 import { Metadata } from 'next'
 import Link from 'next/link'
+
 export const metadata: Metadata = {
 title: `Admin Orders - ${APP_NAME}`,
 }
+
 export default async function OrdersPage({
 searchParams: { page = '1' },
 }: {
 searchParams: { page: string }
 }) {
 const session = await auth()
-if (session?.user.role !== 'admin')
-throw new Error('admin permission required')
+if (session?.user.role !== 'admin' && session?.user.role !== 'staff') {
+    throw new Error('Admin or staff permission required');
+}
+
+
 const orders = await getAllOrders({
 page: Number(page),
 })
+
 return (
 <div className="space-y-2">
     <h1 className="h2-bold">Orders</h1>
