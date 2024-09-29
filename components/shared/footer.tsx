@@ -30,27 +30,27 @@ return (
         </h3>
         <ul className="text-sm space-y-1"> {/* Reduced spacing */}
             <li>
-            <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:underline">
+            <Link href="/about-us" className="text-gray-600 dark:text-gray-400 hover:underline">
                 About Us
             </Link>
             </li>
             <li>
-            <Link href="/shop" className="text-gray-600 dark:text-gray-400 hover:underline">
+            <Link href="/" className="text-gray-600 dark:text-gray-400 hover:underline">
                 Shop
             </Link>
             </li>
             <li>
-            <Link href="/contact" className="text-gray-600 dark:text-gray-400 hover:underline">
-                Contact
+            <Link href="/contact-us" className="text-gray-600 dark:text-gray-400 hover:underline">
+                Contact Us
             </Link>
             </li>
             <li>
-            <Link href="/faq" className="text-gray-600 dark:text-gray-400 hover:underline">
+            <Link href="/" className="text-gray-600 dark:text-gray-400 hover:underline">
                 FAQ
             </Link>
             </li>
             <li>
-            <Link href="/privacy-policy" className="text-gray-600 dark:text-gray-400 hover:underline">
+            <Link href="/" className="text-gray-600 dark:text-gray-400 hover:underline">
                 Privacy Policy
             </Link>
             </li>
