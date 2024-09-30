@@ -65,9 +65,9 @@ return (
                         </div>
 
                         <div>
-                            <p>Description:</p>
-                            <p>{product.description}</p>
-                        </div>
+                        <p className="text-sm font-semi-bold">Description:</p>
+                        <p className="text-[14.5px]">{product.description}</p> {/* Adjusted text size to 15px */}
+                    </div>
                     </div>
                 </div>
 
@@ -111,13 +111,12 @@ return (
                         <hr className="my-4" />
                         {slug === 'subsonic-eye-all-around-you-cd' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/0V1dIAje2IVpyBQp6byOwi?utm_source=generator"
                                     width="100%"
                                     height="352"
-                                    frameBorder="0"
                                     allowFullScreen
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                                     loading="lazy"
@@ -127,7 +126,7 @@ return (
 
                         {slug === 'the-strokes-comedown-machine-cd' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/4WnkQO4xD9ljQooB3VIxCV?utm_source=generator"
@@ -143,7 +142,7 @@ return (
 
                         {slug === 'the-strokes-the-new-abnormal-cd' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/2xkZV2Hl1Omi8rk2D7t5lN?utm_source=generator"
@@ -159,7 +158,7 @@ return (
 
                         {slug === 'the-strokes-room-on-fire-cd' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/3HFbH1loOUbqCyPsLuHLLh?utm_source=generator"
@@ -175,7 +174,7 @@ return (
 
                         {slug === 'the-strokes-is-this-it-cd' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/2k8KgmDp9oHrmu0MIj4XDE?utm_source=generator"
@@ -191,7 +190,7 @@ return (
 
                         {slug === 'car-seat-headrest-twin-fantasy-vinyl' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/6gDtROOIYa6OQxwhDNkDRM?utm_source=generator"
@@ -207,7 +206,7 @@ return (
 
                         {slug === 'fuad-dispositions-cd' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/46hd6Aj37dUTCVHPERBWGt?utm_source=generator"
@@ -223,7 +222,7 @@ return (
 
                         {slug === 'twewy-stay-casette' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px', marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/1EBH7Qc79THUD8OzfNbKoc?utm_source=generator"
@@ -237,25 +236,24 @@ return (
                             </div>
                         )}
 
-                        {slug === 'fictions-postcard-cd' && (
+                        {slug === 'fictions-demo-tape-1-cd' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-[14px] font-bold uppercase">Preview Track(s)</p> 
                                 <iframe
-                                    style={{ borderRadius: '12px', marginTop: '10px' }}
-                                    src="https://open.spotify.com/embed/album/6ppIy78NgOdqhrf06gzv9T?utm_source=generator"
-                                    width="100%"
-                                    height="352"
-                                    frameBorder="0"
-                                    allowFullScreen
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                    loading="lazy"
-                                ></iframe>
+                                    style={{ border: '0', width: '100%',  height: '120px', borderRadius: '12px', marginTop: '10px'}}
+                                    src="https://bandcamp.com/EmbeddedPlayer/album=2373858979/size=large/bgcol=333333/linkcol=e99708/tracklist=false/artwork=small/transparent=true/"
+                                    seamless
+                                >
+                                    <a href="https://itgoesincircles.bandcamp.com/album/demo-tape-1">
+                                        demo tape 1 by fictions
+                                    </a>
+                                </iframe>
                             </div>
                         )}
 
                         {slug === 'laufey-bewitched-album-vinyl' && (
                             <div>
-                                <p className="text-lg font-bold uppercase">Preview Track(s)</p>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
                                 <iframe
                                     style={{ borderRadius: '12px',  marginTop: '10px' }}
                                     src="https://open.spotify.com/embed/album/1rpCHilZQkw84A3Y9czvMO?utm_source=generator"
