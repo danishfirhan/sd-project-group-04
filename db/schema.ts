@@ -14,19 +14,26 @@ import { primaryKey } from 'drizzle-orm/pg-core/primary-keys'
 import { AdapterAccountType } from 'next-auth/adapters'
 import { relations } from 'drizzle-orm'
 
-// USERS
-export const users = pgTable("user", {
-id: uuid('id').defaultRandom().primaryKey().notNull(),
-name: text("name"),
-email: text("email").unique(),
-role: text('role').notNull().default('user'),
-password: text('password'),
-emailVerified: timestamp("emailVerified", { mode: "date" }),
-image: text("image"),
-address: json('address').$type<ShippingAddress>(),
-paymentMethod: text('paymentMethod'),
-});
-
+export const users = pgTable(
+'user',
+{
+    id: uuid('id').defaultRandom().primaryKey().notNull(),
+    name: text('name'),
+    email: text('email').notNull(),
+    role: text('role').notNull().default('user'),
+    password: text('password'),
+    emailVerified: timestamp('emailVerified', { mode: 'date' }),
+    image: text('image'),
+    address: json('address').$type<ShippingAddress>(),
+    paymentMethod: text('paymentMethod'),
+    createdAt: timestamp('createdAt').defaultNow(),
+},
+(table) => {
+    return {
+    userEmailIdx: uniqueIndex('user_email_idx').on(table.email),
+    }
+}
+)
 // ACCOUNTS
 export const accounts = pgTable(
 'account',
