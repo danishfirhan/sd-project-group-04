@@ -29,7 +29,12 @@ page,
 })
 return (
 <div className="space-y-2">
+    <div className="flex-between">
     <h1 className="h2-bold">Users</h1>
+    <Button asChild variant="default">
+        <Link href="/admin/users/create">Create User</Link>
+        </Button>
+        </div>
     <div>
     <Table>
         <TableHeader>
