@@ -4,21 +4,8 @@ import React from 'react';
 const ContactUs = () => {
 return (
 <div className="max-w-4xl mx-auto p-8">
-    {/* Intro Section */}
-    <section className="mb-12">
-    <h1 className="text-4xl font-bold text-center mb-6">Get in Touch with MusicRecords2U</h1>
-    <p className="text-lg leading-relaxed text-center">
-        Have any questions or feedback? Reach out to us!
-    </p>
-    </section>
-
-    {/* Contact Form */}
-    <section className="mb-12">
-    <ContactUsForm />
-    </section>
-
     {/* Store Details Section */}
-    <section>
+    <section className="mb-12">
     <h2 className="text-3xl font-semibold text-center mb-8">Come to Our Store</h2>
 
     {/* Flexbox to split content into two columns */}
@@ -64,6 +51,19 @@ return (
         </div>
         </div>
     </div>
+    </section>
+
+    {/* Intro Section */}
+    <section className="mb-12">
+    <h1 className="text-4xl font-bold text-center mb-6">Get in Touch with MusicRecords2U</h1>
+    <p className="text-lg leading-relaxed text-center">
+        Have any questions or feedback? Reach out to us!
+    </p>
+    </section>
+
+    {/* Contact Form */}
+    <section className="mb-12">
+    <ContactUsForm />
     </section>
 </div>
 );
