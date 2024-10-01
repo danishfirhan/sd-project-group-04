@@ -1,7 +1,4 @@
-/*
-import { auth } from '@/auth';
 import Pagination from '@/components/shared/pagination';
-import { Button } from '@/components/ui/button';
 import {
 Table,
 TableBody,
@@ -10,31 +7,27 @@ TableHead,
 TableHeader,
 TableRow,
 } from '@/components/ui/table';
-import { deleteFeedback, getAllFeedbacks } from '@/lib/actions/feedback.actions';
-import { APP_NAME } from '@/lib/constants';
-import { formatDateTime, formatId } from '@/lib/utils';
-import { Metadata } from 'next';
+import { getAllFeedbacks, deleteFeedback } from '@/lib/actions/feedback.actions';
+import { formatId } from '@/lib/utils';
+import DeleteDialog from '@/components/shared/delete-dialog';
 
-export const metadata: Metadata = {
-title: `Admin Feedbacks - ${APP_NAME}`,
+export const metadata = {
+title: `Admin Feedback - ${process.env.APP_NAME}`,
 };
 
-export default async function FeedbackPage({
-searchParams: { page = '1' },
+export default async function AdminFeedbackPage({
+searchParams,
 }: {
 searchParams: { page: string };
 }) {
-const session = await auth();
-if (session?.user.role !== 'admin') throw new Error('admin permission required');
-
+const page = Number(searchParams.page) || 1;
 const feedbacks = await getAllFeedbacks({
-page: Number(page),
+page,
 });
-
 return (
 <div className="space-y-2">
-    <h1 className="h2-bold">Feedbacks</h1>
-    <div className="overflow-x-auto">
+    <h1 className="h2-bold">Feedback</h1>
+    <div>
     <Table>
         <TableHeader>
         <TableRow>
@@ -42,37 +35,29 @@ return (
             <TableHead>NAME</TableHead>
             <TableHead>EMAIL</TableHead>
             <TableHead>MESSAGE</TableHead>
-            <TableHead>SENT AT</TableHead>
+            <TableHead>CREATED AT</TableHead>
             <TableHead>ACTIONS</TableHead>
         </TableRow>
         </TableHeader>
         <TableBody>
-        {feedbacks.data.map((feedback) => (
+        {feedbacks?.data.map((feedback) => (
             <TableRow key={feedback.id}>
             <TableCell>{formatId(feedback.id)}</TableCell>
             <TableCell>{feedback.name}</TableCell>
             <TableCell>{feedback.email}</TableCell>
             <TableCell>{feedback.message}</TableCell>
-            <TableCell>
-                {formatDateTime(feedback.createdAt).dateTime}
-            </TableCell>
+            <TableCell>{new Date(feedback.createdAt).toLocaleString()}</TableCell>
             <TableCell className="flex gap-1">
-                <Button asChild variant="outline" size="sm">
-                <a href={`mailto:${feedback.email}`}>Reply</a>
-                </Button>
-                <Button asChild variant="outline" size="sm">
                 <DeleteDialog id={feedback.id} action={deleteFeedback} />
-                </Button>
             </TableCell>
             </TableRow>
         ))}
         </TableBody>
     </Table>
-    {feedbacks.totalPages > 1 && (
-        <Pagination page={page} totalPages={feedbacks.totalPages!} />
+    {feedbacks?.totalPages! > 1 && (
+        <Pagination page={page} totalPages={feedbacks?.totalPages!} />
     )}
     </div>
 </div>
 );
 }
-*/

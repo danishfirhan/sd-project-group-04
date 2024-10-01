@@ -194,6 +194,8 @@ order: one(orders, {
 }),
 }))
 
+
+//FEEDBACKS
 export const feedbacks = pgTable("feedbacks", {
     id: uuid('id').defaultRandom().primaryKey().notNull(),
     name: text('name').notNull(),
