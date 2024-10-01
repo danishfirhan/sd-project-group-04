@@ -13,7 +13,7 @@ message: string;
 }
 
 export default function ContactUsForm() {
-const { register, handleSubmit, formState: { errors } } = useForm<ContactFormInputs>();
+const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormInputs>(); // Added reset
 
 const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
 try {
@@ -28,6 +28,7 @@ try {
     const result = await response.json();
     if (result.success) {
     alert('Message sent successfully');
+    reset(); // Clears the form after successful submission
     } else {
     alert('Failed to send message');
     }
@@ -36,7 +37,6 @@ try {
     alert('Error submitting message');
 }
 };
-
 
 return (
 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
