@@ -18,7 +18,7 @@ export const users = pgTable(
 'user',
 {
     id: uuid('id').defaultRandom().primaryKey().notNull(),
-    name: text('name'),
+    name: text('name').notNull(),
     email: text('email').notNull(),
     role: text('role').notNull().default('user'),
     password: text('password'),

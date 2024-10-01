@@ -244,9 +244,6 @@ return (
                                     src="https://bandcamp.com/EmbeddedPlayer/album=2373858979/size=large/bgcol=333333/linkcol=e99708/tracklist=false/artwork=small/transparent=true/"
                                     seamless
                                 >
-                                    <a href="https://itgoesincircles.bandcamp.com/album/demo-tape-1">
-                                        demo tape 1 by fictions
-                                    </a>
                                 </iframe>
                             </div>
                         )}

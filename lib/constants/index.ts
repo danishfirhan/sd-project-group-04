@@ -15,7 +15,7 @@ process.env.DEFAULT_PAYMENT_METHOD || 'PayPal'
 
 export const USER_ROLES = process.env.USER_ROLES
 ? process.env.USER_ROLES.split(', ')
-: ['admin', 'user']
+: ['admin', 'staff', 'user']
 
 export const signInDefaultValues = {
 email: '',
