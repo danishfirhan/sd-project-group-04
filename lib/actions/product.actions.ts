@@ -133,6 +133,16 @@ import { insertProductSchema, updateProductSchema } from '../validator'
         totalPages: Math.ceil(dataCount[0].count / limit),
         }
     }
+
+    export async function getAlbumOfTheDay() {
+        const albumOfTheDay = await db.query.products.findFirst({
+            where: eq(products.isFeatured, true), // Assuming 'isFeatured' is a boolean column
+            orderBy: [desc(products.createdAt)], // Assuming 'createdAt' is a date column
+        });
+    
+        return albumOfTheDay;
+    }
+    
     // DELETE
     export async function deleteProduct(id: string) {
         try {
