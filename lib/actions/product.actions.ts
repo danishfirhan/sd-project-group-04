@@ -136,12 +136,24 @@ import { insertProductSchema, updateProductSchema } from '../validator'
 
     export async function getAlbumOfTheDay() {
         const albumOfTheDay = await db.query.products.findFirst({
-            where: eq(products.isFeatured, true), // Assuming 'isFeatured' is a boolean column
-            orderBy: [desc(products.createdAt)], // Assuming 'createdAt' is a date column
+            where: eq(products.isFeatured, true), // Ensure you're fetching featured albums
+            orderBy: [desc(products.createdAt)], // Order by creation date
         });
     
-        return albumOfTheDay;
+        if (albumOfTheDay) {
+            // Map the fields from the database to the Album interface
+            return {
+                id: albumOfTheDay.id, // Assuming `id` is the primary key
+                title: albumOfTheDay.name, // Assuming `name` corresponds to the album title
+                description: albumOfTheDay.description,
+                rating: albumOfTheDay.rating, // Ensure rating is a number
+                coverImage: albumOfTheDay.images[0] || undefined, // Use the first image or undefined
+            };
+        }
+    
+        return null; // Return null if no album is found
     }
+    
     
     // DELETE
     export async function deleteProduct(id: string) {
