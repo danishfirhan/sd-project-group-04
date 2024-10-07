@@ -268,6 +268,36 @@ return (
                                 ></iframe>
                             </div>
                         )}
+                        {slug === 'alvvays-self-titled-album-cassette' && (
+                            <div>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
+                                <iframe
+                                    style={{ borderRadius: '12px',  marginTop: '10px' }}
+                                    src="https://open.spotify.com/embed/album/1K6TvnkvmnLKPhifmPb6N7?utm_source=generator"
+                                    width="100%"
+                                    height="352"
+                                    frameBorder="0"
+                                    allowFullScreen
+                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                    loading="lazy"
+                                ></iframe>
+                            </div>
+                        )}
+                        {slug === 'heavener-as-suns-and-love-retreat-cd' && (
+                            <div>
+                                <p className="text-14px font-bold uppercase">Preview Track(s)</p>
+                                <iframe
+                                    style={{ borderRadius: '12px',  marginTop: '10px' }}
+                                    src="https://open.spotify.com/embed/album/6ClJUVle2JmbJFsQBvok71?utm_source=generator"
+                                    width="100%"
+                                    height="352"
+                                    frameBorder="0"
+                                    allowFullScreen
+                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                    loading="lazy"
+                                ></iframe>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -275,11 +305,11 @@ return (
         <section className="mt-10">
         <h2 className="h2-bold  mb-5">Customer Reviews</h2>
         <ReviewList
-          productId={product.id}
-          productSlug={product.slug}
-          userId={session?.user.id!}
+        productId={product.id}
+        productSlug={product.slug}
+        userId={session?.user.id!}
         />
-      </section>
+        </section>
     </>
 )
 }

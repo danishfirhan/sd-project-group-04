@@ -24,7 +24,7 @@ export default function AlbumOfTheDay({ album }: { album: Album }) {
 
     return (
         <div className="mt-6 mb-6"> {/* Margin for spacing */}
-            <h2 className="text-3xl font-bold mb-3">Album Of The Day</h2> {/* Album title */}
+            <h2 className="text-3xl font-bold mb-3">Album Of The Week</h2> {/* Album title */}
             <div className="flex items-start space-x-6"> {/* Flex container */}
                 {/* Album Link */}
                 <Link href={productLink} className="w-1/3"> {/* Make the cover image clickable */}
