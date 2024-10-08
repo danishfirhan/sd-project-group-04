@@ -5,10 +5,10 @@ import Rating from './rating'; // Import the Rating component
 
 // Example album interface, modify according to your database structure
 interface Album {
-    id: number;
+    id: string;
     title: string;
     description: string;
-    rating?: number; // Optional to handle cases where rating may not be provided
+    rating?: string; // Optional to handle cases where rating may not be provided
     coverImage?: string; // Optional since we're using a temporary image
 }
 

@@ -10,9 +10,10 @@ signInFormSchema,
 signUpFormSchema,
 updateUserSchema,
 insertUserSchema,
+changePasswordSchema
 } from '../validator'
 import { formatError } from '../utils'
-import { hashSync } from 'bcrypt-ts-edge'
+import { hashSync, compareSync } from 'bcrypt-ts-edge'
 import db from '@/db/drizzle'
 import { users } from '@/db/schema'
 import { ShippingAddress } from '@/types'
@@ -205,6 +206,54 @@ try {
 } catch (error) {
     return { success: false, message: formatError(error) }
 }
+}
+
+interface ChangePasswordData {
+    currentPassword: string;
+    newPassword: string;
+}
+
+export async function changePassword(data: ChangePasswordData) {
+    // Validate data against the schema
+    try {
+        changePasswordSchema.parse(data);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return { success: false, message: error.errors.map(e => e.message).join(', ') };
+        }
+        // Handle other unexpected errors
+        return { success: false, message: 'Validation error' };
+    }
+
+    const session = await auth();
+    if (!session || !session.user || !session.user.id) {
+        return { success: false, message: 'Not authenticated' };
+    }
+
+    const userId = session.user.id;
+    if (!userId) {
+        return { success: false, message: 'User ID is undefined' };
+    }
+
+    const currentUser = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, userId),
+    });
+
+    if (!currentUser || !currentUser.password) {
+        return { success: false, message: 'User not found or invalid user data' };
+    }
+
+    // Validate current password
+    const isPasswordValid = compareSync(data.currentPassword, currentUser.password);
+    if (!isPasswordValid) {
+        return { success: false, message: 'Invalid current password' };
+    }
+
+    // Update to the new password
+    const newPasswordHash = hashSync(data.newPassword, 10);
+    await db.update(users).set({ password: newPasswordHash }).where(eq(users.id, currentUser.id as string));
+
+    return { success: true, message: 'Password updated successfully' };
 }
 
 // CREATE
