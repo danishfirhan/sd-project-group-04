@@ -127,3 +127,16 @@ export const insertOrderSchema = createInsertSchema(orders, {
 export const insertOrderItemSchema = createInsertSchema(orderItems, {
     price: z.number(),
 });
+
+//EVENTS SCHEMAS
+export const insertEventSchema = z.object({
+    title: z.string().min(3, 'Title must be at least 3 characters'),
+    description: z.string().min(10, 'Description must be at least 10 characters'),
+    date: z.date(),
+    venue: z.string().min(3, 'Location must be at least 3 characters'),
+    organizer: z.string().min(3, 'Organizer must be at least 3 characters'),
+});
+
+export const updateEventSchema = insertEventSchema.extend({
+    id: z.string().min(1, 'ID is required'),
+});

@@ -21,7 +21,7 @@ import { count, desc, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { PAGE_SIZE } from '../constants'
-
+import { sendResetPasswordEmail } from '@/email'
 
 // USER
 export async function signUp(prevState: unknown, formData: FormData) {
@@ -75,6 +75,13 @@ export async function signInWithCredentials(
     return { success: false, message: 'Invalid email or password' }
     }
 }
+
+export const SignInWithEmail = async (formData: any) => {
+    await signIn('email', {
+        email: formData.email,
+        redirect: false, // Prevents automatic redirect
+    });
+    }
 
     // GET
     export async function getAllUsers({
@@ -255,6 +262,48 @@ export async function changePassword(data: ChangePasswordData) {
 
     return { success: true, message: 'Password updated successfully' };
 }
+interface ResetPasswordParams {
+    token: string; // Assuming token is a string
+    newPassword: string; // Assuming newPassword is a string
+}
+
+export const resetPassword = async ({ token, newPassword }: ResetPasswordParams) => {
+    try {
+        const response = await fetch('/api/reset-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token, newPassword }),
+        });
+
+        const data = await response.json();
+        return data; // Assuming your API returns a success field
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        return { success: false, message: 'Failed to reset password. Please try again later.' };
+    }
+};
+
+export const sendResetPasswordLink = async (user: { name: string; email: string }) => {
+  // Generate a unique token and link
+    const resetToken = crypto.randomUUID()
+    const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${resetToken}`
+
+  // Optionally save the reset token and timestamp to your database here for validation later
+
+  // Send the reset password email
+    await sendResetPasswordEmail({ user, resetLink })
+}
+
+export const getUserByEmail = async (email: string) => {
+    return await db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.email, email),
+    });
+};
+
+
+
 
 // CREATE
 export async function createUser(user: z.infer<typeof insertUserSchema>) {

@@ -8,7 +8,7 @@ import { APP_NAME } from '@/lib/constants'
 import ProfileForm from './profile-form'
 
 export const metadata: Metadata = {
-    title: `Customer Profile - ${APP_NAME}`,
+    title: `Profile - ${APP_NAME}`,
 }
 
 export default async function ProfilePage() {

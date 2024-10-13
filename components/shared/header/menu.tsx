@@ -9,6 +9,9 @@ const Menu = () => {
             <Link href="/shop" className="p-2 whitespace-nowrap">
                     Shop
                 </Link>
+            <Link href="/events" className="p-2 whitespace-nowrap">
+                Events
+            </Link>
             <Link href="/about-us" className="p-2 whitespace-nowrap">
                     About Us
                 </Link>

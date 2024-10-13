@@ -9,31 +9,35 @@ text,
 timestamp,
 uniqueIndex,
 uuid,
+varchar,
 } from 'drizzle-orm/pg-core'
 import { primaryKey } from 'drizzle-orm/pg-core/primary-keys'
 import { AdapterAccountType } from 'next-auth/adapters'
 import { relations } from 'drizzle-orm'
 
 export const users = pgTable(
-'user',
-{
-    id: uuid('id').defaultRandom().primaryKey().notNull(),
-    name: text('name').notNull(),
-    email: text('email').notNull(),
-    role: text('role').notNull().default('user'),
-    password: text('password'),
-    emailVerified: timestamp('emailVerified', { mode: 'date' }),
-    image: text('image'),
-    address: json('address').$type<ShippingAddress>(),
-    paymentMethod: text('paymentMethod'),
-    createdAt: timestamp('createdAt').defaultNow(),
-},
-(table) => {
-    return {
-    userEmailIdx: uniqueIndex('user_email_idx').on(table.email),
+    'user',
+    {
+        id: uuid('id').defaultRandom().primaryKey().notNull(),
+        name: text('name').notNull().default('NO_NAME'),
+        email: text('email').notNull(),
+        role: text('role').notNull().default('user'),
+        password: text('password'),
+        emailVerified: timestamp('emailVerified', { mode: 'date' }),
+        image: text('image'),
+        address: json('address').$type<ShippingAddress>(),
+        paymentMethod: text('paymentMethod'),
+        resetToken: text('resetToken'), // New field for the reset token
+        resetTokenExpiry: timestamp('resetTokenExpiry', { mode: 'date' }), // New field for reset token expiry
+        createdAt: timestamp('createdAt').defaultNow(),
+    },
+    (table) => {
+        return {
+            userEmailIdx: uniqueIndex('user_email_idx').on(table.email),
+        }
     }
-}
-)
+);
+
 // ACCOUNTS
 export const accounts = pgTable(
 'account',
@@ -227,4 +231,17 @@ export const feedbacks = pgTable("feedbacks", {
     email: text('email').notNull(),
     message: text('message').notNull(),
     createdAt: timestamp('createdAt').defaultNow().notNull(),
+});
+
+export const events = pgTable("events", {
+    id: uuid('id').defaultRandom().primaryKey().notNull(), // Use UUID for consistency
+    name: varchar('name', { length: 255 }).notNull(),
+    slug: varchar('slug', { length: 255 }).notNull().unique(),
+    description: text('description').notNull(),
+    date: timestamp('date').notNull(),
+    venue: varchar('venue', { length: 255 }).notNull(),
+    ticketPrice: numeric('ticket_price', { precision: 12, scale: 2 }).notNull(), // Numeric for price
+    availableTickets: integer('available_tickets').notNull(),
+    isFeatured: boolean('is_featured').default(false),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
 });

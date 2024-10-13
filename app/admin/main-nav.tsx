@@ -27,6 +27,10 @@ title: 'Feedbacks',
 href: '/admin/feedbacks',
 },
 {
+title: 'Events',
+href: '/admin/events',
+},
+{
 title: 'Settings',
 href: '/admin/settings',
 },

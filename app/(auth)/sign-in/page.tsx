@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import EmailSigninForm from './email-signin-form'
+import SeparatorWithOr from '@/components/shared/separator-or'
 
 import { auth } from '@/auth'
 import {
@@ -49,6 +51,8 @@ return (
         </CardDescription>
     </CardHeader>
     <CardContent className="space-y-4">
+    <EmailSigninForm />
+    <SeparatorWithOr />
         <CredentialsSignInForm />
         {/* Add Forgot Password link here */}
         <div className="text-center">
