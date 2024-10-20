@@ -35,7 +35,7 @@ return (
             </Link>
             </li>
             <li>
-            <Link href="/" className="text-gray-600 dark:text-gray-400 hover:underline">
+            <Link href="/shop" className="text-gray-600 dark:text-gray-400 hover:underline">
                 Shop
             </Link>
             </li>
@@ -45,12 +45,12 @@ return (
             </Link>
             </li>
             <li>
-            <Link href="/" className="text-gray-600 dark:text-gray-400 hover:underline">
+            <Link href="/faq" className="text-gray-600 dark:text-gray-400 hover:underline">
                 FAQ
             </Link>
             </li>
             <li>
-            <Link href="/" className="text-gray-600 dark:text-gray-400 hover:underline">
+            <Link href="/privacy-policy" className="text-gray-600 dark:text-gray-400 hover:underline">
                 Privacy Policy
             </Link>
             </li>
