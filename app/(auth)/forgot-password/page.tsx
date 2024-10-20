@@ -39,7 +39,7 @@ const ForgotPassword = () => {
 
         if (response.success) {
             toast({
-                description: 'Password reset link sent! Please check your email.',
+                description: 'Password reset link has been sent! Please check your email.',
             });
         } else {
             toast({
