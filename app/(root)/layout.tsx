@@ -7,7 +7,7 @@ children,
 modal,
 }: {
 children: React.ReactNode;
-modal?: React.ReactNode;  // Make 'modal' optional
+modal: React.ReactNode;  // Make 'modal' optional
 }) {
 return (
     <div className="flex h-screen flex-col">
