@@ -33,7 +33,7 @@ const EventsPage = () => {
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-4">Upcoming Events</h1>
             {loading ? (
-                <p>Loading events...</p>
+                <p>Loading events....</p>
             ) : error ? (
                 <p className="text-red-500">{error}</p>
             ) : (
