@@ -48,7 +48,7 @@ return (
                     If you did not request a password reset, please ignore this email or contact support.
                 </Text>
                 <Text>Thanks,</Text>
-                <Text>Your team at MusicRecords2U</Text>
+                <Text>Your team at MusicRecords2U.</Text>
                 </Column>
             </Row>
             </Section>
