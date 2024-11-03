@@ -1,10 +1,12 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
+
 const ReloadButton = () => {
+const [refresh, setRefresh] = useState(false)
 return (
 <Button
-    onClick={() => window.location.reload()}
+    onClick={() => setRefresh(!refresh)}
     variant="default"
     className="w-full"
 >
@@ -12,4 +14,5 @@ return (
 </Button>
 )
 }
+
 export default ReloadButton

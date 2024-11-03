@@ -1,20 +1,22 @@
-import Footer from '@/components/shared/footer'
+import React, { useMemo } from 'react'
 import Header from '@/components/shared/header'
-import React from 'react'
+import Footer from '@/components/shared/footer'
 
 export default function RootLayout({
 children,
 modal,
 }: {
-children: React.ReactNode;
-modal: React.ReactNode;  // Make 'modal' optional
+children: React.ReactNode
+modal: React.ReactNode
 }) {
+const MemoizedModal = useMemo(() => modal, [modal])
+
 return (
-    <div className="flex h-screen flex-col">
+<div className="flex h-screen flex-col">
     <Header />
     <main className="flex-1 wrapper">{children}</main>
-    {modal && modal}  
+    {MemoizedModal}
     <Footer />
-    </div>
-);
+</div>
+)
 }
