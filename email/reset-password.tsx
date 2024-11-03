@@ -45,7 +45,7 @@ return (
                     </a>
                 </Text>
                 <Text>
-                    If you did not request a password reset, please ignore this email or contact support.
+                    If you did not request a password reset, please ignore this email or contact our support team.
                 </Text>
                 <Text>Thanks,</Text>
                 <Text>Your team at MusicRecords2U.</Text>
