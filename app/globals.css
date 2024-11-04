@@ -2,12 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Poppins';
+  src:         
+      url('/fonts/Poppins-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+}
 
+@font-face {
+  font-family: 'Poppins';
+  src:  
+        url('/fonts/Poppins-SemiBold.ttf') format('ttf');
+  font-weight: 600;
+  font-style: normal;
+}
 
 @layer base {
 :root {
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
+  --font-sans: 'Poppins', sans-serif;
   --card: 0 0% 100%;
   --card-foreground: 20 14.3% 4.1%;
   --popover: 0 0% 100%;
@@ -36,6 +51,7 @@
 :root[class~='dark'] {
   --background: 20 14.3% 4.1%;
   --foreground: 60 9.1% 97.8%;
+  --font-sans: 'Poppins', sans-serif;
   --card: 20 14.3% 4.1%;
   --card-foreground: 60 9.1% 97.8%;
   --popover: 20 14.3% 4.1%;
