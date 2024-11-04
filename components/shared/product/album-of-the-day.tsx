@@ -31,8 +31,8 @@ export default function AlbumOfTheDay({ album }: { album: Album }) {
                     <Image
                         src={coverImage} // Use the temporary cover image
                         alt={album.title}
-                        width={400} // Keep the original width for the image
-                        height={400} // Maintain aspect ratio
+                        width={365} // Keep the original width for the image
+                        height={365} // Maintain aspect ratio
                         className="rounded-lg cursor-pointer" // Add cursor pointer for better UX
                         priority // Optional: improves loading speed for featured images
                     />
