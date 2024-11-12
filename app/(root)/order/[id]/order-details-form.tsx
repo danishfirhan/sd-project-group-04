@@ -27,15 +27,19 @@ import {
 } from '@/lib/actions/order.actions'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
+import StripePayment from './stripe-payment'
+
 
 export default function OrderDetailsForm({
     order,
     paypalClientId,
     isAuthorized, // Updated prop name
+    stripeClientSecret,
 }: {
     order: Order
     paypalClientId: string
     isAuthorized: boolean
+    stripeClientSecret: string | null
 }) {const {
 shippingAddress,
 orderItems,
@@ -229,6 +233,14 @@ return (
                 </PayPalScriptProvider>
             </div>
             )}
+
+            {!isPaid && paymentMethod === 'Stripe' && stripeClientSecret && (
+                <StripePayment
+                priceInCents={Number(order.totalPrice) * 100}
+                orderId={order.id}
+                clientSecret={stripeClientSecret}
+                />
+                )}
 
             {isAuthorized && !isPaid && (
                 <div className="inline-block mr-4">

@@ -199,7 +199,7 @@ export const registerForEvent = async (data: z.infer<typeof eventRegistrationSch
     return { success: false, message: formatError(error) };
 }
 };
-
+//export async function createEventBooking(data: { name: string; email: string; eventId: string }) {
 export const createEventBooking = async () => {
 try {
     const session = await auth()

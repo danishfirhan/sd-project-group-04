@@ -1,4 +1,4 @@
-import { CartItem, PaymentResult, ShippingAddress } from '@/types'
+    import { CartItem, PaymentResult, ShippingAddress } from '@/types'
 import {
 boolean,
     decimal,

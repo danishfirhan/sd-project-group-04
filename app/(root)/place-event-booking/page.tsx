@@ -1,25 +1,36 @@
     // app/(root)/place-event-booking/page.tsx
-    import { redirect } from 'next/navigation'
-    import { auth } from '@/auth'
-    import { Button } from '@/components/ui/button'
-    import { Card, CardContent } from '@/components/ui/card'
-    import { getUserById } from '@/lib/actions/user.actions'
-    import { formatCurrency } from '@/lib/utils'
-    import { getSelectedEvent } from '@/lib/actions/event.actions' // Add this line to import getSelectedEvent
-    import PlaceEventBookingForm from './place-event-booking-form'
+    "use client";
 
-    export const metadata = {
-    title: `Place Event Booking`,
-    }
+    import { useEffect, useState } from 'react';
+    import { Button } from '@/components/ui/button';
+    import { Card, CardContent } from '@/components/ui/card';
+    import { formatCurrency } from '@/lib/utils';
+    import PlaceEventBookingForm from './place-event-booking-form';
 
-    export default async function PlaceEventBookingPage() {
-    const session = await auth()
-    const user = await getUserById(session?.user.id!)
-    const eventId = 'b52c2c42-d877-4323-b716-bca9fe6938da' // Replace with actual event ID
-    const selectedEvent = await getSelectedEvent(eventId) // Fetch event details based on selection
-    const selectedTicketQuantity = 1 // Replace with actual ticket quantity logic
+    export default function PlaceEventBookingPage() {
+    const [registrationData, setRegistrationData] = useState({ name: '', email: '' });
+    const [user, setUser] = useState<{ paymentMethod: string } | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<{ id: string; name: string; date: Date; venue: string; ticketPrice: number } | null>(null);
 
-    if (!user.paymentMethod) redirect('/payment-method')
+    useEffect(() => {
+        const storedData = sessionStorage.getItem('registrationData');
+        if (storedData) {
+        setRegistrationData(JSON.parse(storedData));
+        }
+
+        // Simulate fetching user and event data, replace with actual fetch logic if needed
+        const fetchUserAndEvent = async () => {
+        // Replace with actual fetch functions
+        const fetchedUser = await fakeFetchUser();
+        const fetchedEvent = await fakeFetchEvent();
+        setUser(fetchedUser);
+        setSelectedEvent(fetchedEvent);
+        };
+
+        fetchUserAndEvent();
+    }, []);
+
+    if (!user) return <p>Loading...</p>;
 
     return (
         <>
@@ -31,9 +42,9 @@
                 <h2 className="text-xl pb-4">Event Details</h2>
                 {selectedEvent ? (
                     <>
-                        <p>{selectedEvent.name}</p>
-                        <p>{selectedEvent.date.toDateString()}</p>
-                        <p>{selectedEvent.venue}</p>
+                    <p>{selectedEvent.name}</p>
+                    <p>{selectedEvent.date.toDateString()}</p>
+                    <p>{selectedEvent.venue}</p>
                     </>
                 ) : (
                     <p>Event details not available</p>
@@ -47,26 +58,38 @@
             <Card>
                 <CardContent className="p-4 gap-4">
                 <h2 className="text-xl pb-4">Payment Method</h2>
-                <p>{user.paymentMethod}</p>
+                <p>{user.paymentMethod || 'No payment method on file'}</p>
                 <div>
                     <Button variant="outline">Edit</Button>
                 </div>
                 </CardContent>
             </Card>
             </div>
-            
+
             <div>
             <Card>
                 <CardContent className="p-4 gap-4 space-y-4">
+                <h2 className="text-xl pb-4">Your Details</h2>
+                <p>Name: {registrationData.name}</p>
+                <p>Email: {registrationData.email}</p>
                 <div className="flex justify-between">
                     <div>Total Price</div>
-                    <div>{selectedEvent && typeof selectedEvent.ticketPrice === 'number' ? formatCurrency(selectedEvent.ticketPrice * selectedTicketQuantity) : 'N/A'}</div>
+                    <div>{selectedEvent && typeof selectedEvent.ticketPrice === 'number' ? formatCurrency(selectedEvent.ticketPrice) : 'N/A'}</div>
                 </div>
-                <PlaceEventBookingForm />
+                <PlaceEventBookingForm eventId={selectedEvent?.id ?? ''} />
                 </CardContent>
             </Card>
             </div>
         </div>
         </>
-    )
+    );
+    }
+
+    // Placeholder functions for fetching user and event
+    async function fakeFetchUser() {
+    return { paymentMethod: 'Credit Card' };
+    }
+
+    async function fakeFetchEvent() {
+    return { id: '1', name: 'Concert Event', date: new Date(), venue: 'Concert Hall', ticketPrice: 50 };
     }

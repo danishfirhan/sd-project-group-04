@@ -11,28 +11,10 @@ const isValidUUID = (id: string) => {
     return uuidRegex.test(id);
 }
 
-export default function PlaceEventBookingForm() {
-    const { formState: { isSubmitting, errors } } = useForm()
+export default function PlaceEventBookingForm({ eventId }: { eventId: string }) {
+    const {  handleSubmit, formState: { isSubmitting, errors } } = useForm()
 
-    const PlaceEventBookingButton = () => {
-        const pending = isSubmitting
-        return (
-            <Button disabled={pending} className="w-full">
-                {pending ? (
-                    <Loader className="w-4 h-4 animate-spin" />
-                ) : (
-                    <Check className="w-4 h-4" />
-                )}{' '}
-                Place Event Booking
-            </Button>
-        )
-    }
-
-    // Validate the event ID before submitting
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        const eventId = 'some-event-id'; // Replace with the actual event ID you are using
-
+    const onSubmit = async () => {
         // Validate the event ID
         if (!isValidUUID(eventId)) {
             console.error('Invalid event ID:', eventId);
@@ -43,15 +25,32 @@ export default function PlaceEventBookingForm() {
         const result = await createEventBooking();
         if (!result.success) {
             console.error('Error creating booking:', result.message);
+        } else {
+            // Handle successful booking (e.g., redirect or show a success message)
+            console.log('Booking successful:', result);
         }
     }
 
     return (
-        <form onSubmit={onSubmit} className="w-full">
-            <PlaceEventBookingButton />
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+            
+            <PlaceEventBookingButton isSubmitting={isSubmitting} />
             {errors.eventId && (
                 <p className="text-destructive py-4">{String(errors.eventId.message)}</p>
             )}
         </form>
+    )
+}
+
+const PlaceEventBookingButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
+    return (
+        <Button disabled={isSubmitting} className="w-full">
+            {isSubmitting ? (
+                <Loader className="w-4 h-4 animate-spin" />
+            ) : (
+                <Check className="w-4 h-4" />
+            )}{' '}
+            Place Event Booking
+        </Button>
     )
 }

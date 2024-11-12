@@ -12,7 +12,7 @@
     } from '@/components/ui/form'
     import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
     import { useToast } from '@/components/ui/use-toast'
-    import { updateUserPaymentMethod, updateUserEventPaymentMethod } from '@/lib/actions/user.actions'
+    import { updateUserPaymentMethod } from '@/lib/actions/user.actions'
     import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from '@/lib/constants'
     import { paymentMethodSchema } from '@/lib/validator'
     import { zodResolver } from '@hookform/resolvers/zod'
@@ -22,17 +22,11 @@
     import { useForm } from 'react-hook-form'
     import { z } from 'zod'
 
-    interface PaymentMethodFormProps {
-    preferredPaymentMethod: string | null
-    isEventPayment?: boolean
-    eventId?: string // optional for event-specific payments
-    }
-
     export default function PaymentMethodForm({
     preferredPaymentMethod,
-    isEventPayment = false,
-    eventId,
-    }: PaymentMethodFormProps) {
+    }: {
+    preferredPaymentMethod: string | null
+    }) {
     const router = useRouter()
 
     const form = useForm<z.infer<typeof paymentMethodSchema>>({
@@ -43,37 +37,26 @@
     })
 
     const [isPending, startTransition] = useTransition()
+
     const { toast } = useToast()
 
     async function onSubmit(values: z.infer<typeof paymentMethodSchema>) {
-        startTransition(() => {
-            (async () => {
-                let res
-
-                if (isEventPayment && eventId) {
-                    // If this is an event payment, call the event-specific payment action
-                    res = await updateUserEventPaymentMethod({ ...values, eventId })
-                } else {
-                    // Otherwise, use the regular payment action
-                    res = await updateUserPaymentMethod(values)
-                }
-
-                if (!res.success) {
-                    toast({
-                        variant: 'destructive',
-                        description: res.message,
-                    })
-                    return
-                }
-
-                router.push(isEventPayment ? `/events/${eventId}/confirmation` : '/place-event-booking')
-            })()
+        startTransition(async () => {
+        const res = await updateUserPaymentMethod(values)
+        if (!res.success) {
+            toast({
+            variant: 'destructive',
+            description: res.message,
+            })
+            return
+        }
+        router.push('/place-order')
         })
     }
 
     return (
         <>
-        <CheckoutSteps current={isEventPayment ? 1 : 2} />
+        <CheckoutSteps current={2} />
         <div className="max-w-md mx-auto">
             <Form {...form}>
             <form
@@ -81,7 +64,7 @@
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4"
             >
-                <h1 className="h2-bold mt-4">{isEventPayment ? 'Event Payment Method' : 'Payment Method'}</h1>
+                <h1 className="h2-bold mt-4">Payment Method</h1>
                 <p className="text-sm text-muted-foreground">
                 Please select your preferred payment method
                 </p>
