@@ -1,6 +1,7 @@
 import { CartItem, PaymentResult, ShippingAddress } from '@/types'
 import {
 boolean,
+    decimal,
 integer,
 json,
 numeric,
@@ -13,7 +14,8 @@ varchar,
 } from 'drizzle-orm/pg-core'
 import { primaryKey } from 'drizzle-orm/pg-core/primary-keys'
 import { AdapterAccountType } from 'next-auth/adapters'
-import { relations } from 'drizzle-orm'
+import { relations } from 'drizzle-orm' 
+
 
 export const users = pgTable(
     'user',
@@ -233,20 +235,6 @@ export const feedbacks = pgTable("feedbacks", {
     createdAt: timestamp('createdAt').defaultNow().notNull(),
 });
 
-//EVENTS
-export const events = pgTable("events", {
-    id: uuid('id').defaultRandom().primaryKey().notNull(), // Use UUID for consistency
-    name: varchar('name', { length: 255 }).notNull(),
-    images: text('images').array().notNull(),
-    slug: varchar('slug', { length: 255 }).notNull().unique(),
-    description: text('description').notNull(),
-    date: timestamp('date').notNull(),
-    venue: varchar('venue', { length: 255 }).notNull(),
-    ticketPrice: numeric('ticket_price', { precision: 12, scale: 2 }).notNull(), // Numeric for price
-    availableTickets: integer('available_tickets').notNull(),
-    isFeatured: boolean('is_featured').default(false),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
-});
 
 // BOOKINGS
 export const bookings = pgTable('bookings', {
@@ -264,7 +252,6 @@ export const bookings = pgTable('bookings', {
   bookingDetails: json('bookingDetails').$type<Record<string, any>>().notNull().default({}), // JSON field for any additional booking details
 });
 
-// EVENT REGISTRATION 
 export const eventRegistrations = pgTable('event_registrations', {
     id: uuid('id').notNull().defaultRandom().primaryKey(),
     eventId: uuid('eventId').notNull(),
@@ -277,3 +264,36 @@ export const eventRegistrations = pgTable('event_registrations', {
     createdAt: timestamp('createdAt').notNull().defaultNow(),
 });
 
+
+// EVENTS
+export const events = pgTable("events", {
+    id: uuid('id').defaultRandom().primaryKey().notNull(), // Use UUID for consistency
+    name: varchar('name', { length: 255 }).notNull(),
+    images: text('images').array().notNull(),
+    slug: varchar('slug', { length: 255 }).notNull().unique(),
+    description: text('description').notNull(),
+    date: timestamp('date').notNull(),
+    venue: varchar('venue', { length: 255 }).notNull(),
+    ticketPrice: numeric('ticket_price', { precision: 12, scale: 2 }).notNull(), // Numeric for price
+    availableTickets: integer('available_tickets').notNull(),
+    isFeatured: boolean('is_featured').default(false),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+// EVENT BOOKINGS
+export const eventBookings = pgTable('event_bookings', {
+    id: uuid('id').notNull().defaultRandom().primaryKey(), // Unique identifier for each booking
+    eventId: uuid('eventId').notNull().references(() => events.id, {
+        onDelete: 'cascade', // Cascade delete if the event is deleted
+    }),
+    userId: uuid('userId').notNull().references(() => users.id, {
+        onDelete: 'cascade', // Cascade delete if the user is deleted
+    }),
+    name: text('name').notNull(), // Name of the person making the booking
+    email: text('email').notNull(), // Email of the person making the booking
+    paymentMethod: text('paymentMethod').notNull(), // Payment method used (e.g., PayPal, Stripe)
+    totalPrice: decimal('totalPrice', { precision: 10, scale: 2 }).notNull(), // Total price of the booking
+    bookingDate: timestamp('bookingDate').notNull().defaultNow(), // Date and time of the booking
+    status: text('status').notNull().default('pending'), // Status of the booking (e.g., pending, confirmed, canceled)
+    createdAt: timestamp('createdAt').notNull().defaultNow(), // Timestamp for when the booking was created
+    updatedAt: timestamp('updatedAt').notNull().defaultNow().$onUpdateFn(() => new Date()), // Timestamp for when the booking was last updated
+});
