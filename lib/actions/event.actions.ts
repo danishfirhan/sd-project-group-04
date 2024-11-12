@@ -7,7 +7,7 @@ import { PAGE_SIZE } from '../constants';
 import { revalidatePath } from 'next/cache';
 import { formatError } from '../utils';
 import db from '@/db/drizzle';
-import { events, eventRegistrations, eventBookings } from '@/db/schema';
+import { events, eventBookings, eventRegistrations } from '@/db/schema';
 import { z } from 'zod';
 import { insertEventSchema, updateEventSchema, eventRegistrationSchema } from '../validator';
 import { auth } from '@/auth';
@@ -222,6 +222,8 @@ try {
         ticketQuantity: selectedTicketQuantity, // Capture this as well
         paymentMethod: user.paymentMethod,
         totalPrice: (selectedTicketQuantity * parseFloat(selectedEvent.ticketPrice)).toString(), // Calculate total price based on ticket price
+        name: user.name, // Add the name property
+        email: user.email, // Add the email property
     }
 
     const insertedBookingId = await db.transaction(async (tx) => {

@@ -1,7 +1,7 @@
-// app/(root)/book-event/page.tsx
-import React from 'react';
+'use client' // Add this line at the top
+
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 interface Params {
     eventId: string;
