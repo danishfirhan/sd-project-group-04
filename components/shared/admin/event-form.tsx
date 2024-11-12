@@ -31,10 +31,6 @@ type ClientUploadedFileData<T> = {
     uploadedBy?: T;
 };
 
-// Define the UploadThingFile type
-type UploadThingFile = {
-    fileUrl: string; // Adjust this according to the actual structure
-};
 
 export default function EventForm({
     type,
