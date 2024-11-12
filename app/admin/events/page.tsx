@@ -28,6 +28,7 @@ export default async function AdminEventsPage({
     const events = await getAllEvents({
         query: searchText,
         page,
+        venue: 'all', // or provide the appropriate venue value
     });
 
     return (

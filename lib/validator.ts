@@ -130,13 +130,44 @@ export const insertOrderItemSchema = createInsertSchema(orderItems, {
 
 //EVENTS SCHEMAS
 export const insertEventSchema = z.object({
-    title: z.string().min(3, 'Title must be at least 3 characters'),
-    description: z.string().min(10, 'Description must be at least 10 characters'),
-    date: z.date(),
-    venue: z.string().min(3, 'Location must be at least 3 characters'),
-    organizer: z.string().min(3, 'Organizer must be at least 3 characters'),
+    title: z.string().min(1, 'Title is required'),
+    slug: z.string().min(1, 'Slug is required'), // Add slug
+    images: z.array(z.string()).optional(), // Optional array of image URLs
+    description: z.string().optional(),
+    date: z.string().transform((date) => new Date(date)), // Transform to Date
+    time: z.string(),
+    venue: z.string().min(1, 'Venue is required'),
+    organizer: z.string().min(1, 'Organizer is required'),
+    ticketPrice: z.number().min(0, 'Ticket price must be a positive number'), // Add ticketPrice
+    availableTickets: z.number().min(0, 'Available tickets must be a non-negative number'), // Add availableTickets
+    isFeatured: z.boolean().optional(),
+
 });
 
 export const updateEventSchema = insertEventSchema.extend({
     id: z.string().min(1, 'ID is required'),
+});
+
+// BOOKING
+export const insertBookingSchema = z.object({
+    userId: z.string().uuid('User  ID must be a valid UUID'),
+    eventId: z.string().uuid('Event ID must be a valid UUID'),
+    qty: z
+        .number()
+        .int()
+        .nonnegative('Quantity must be a non-negative integer'),
+    totalPrice: z
+        .number()
+        .refine(
+        value => /^\d+(\.\d{2})?$/.test(value.toFixed(2)),
+        'Total Price must have exactly two decimal places (e.g., 49.99)'
+    ),
+});
+
+// EVENT REGISTRATION 
+export const eventRegistrationSchema = z.object({
+    eventId: z.string().min(1, 'Event ID is required'),
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email('Invalid email address'),
+    paymentMethod: z.string().min(1, 'Payment method is required'),
 });

@@ -233,9 +233,11 @@ export const feedbacks = pgTable("feedbacks", {
     createdAt: timestamp('createdAt').defaultNow().notNull(),
 });
 
+//EVENTS
 export const events = pgTable("events", {
     id: uuid('id').defaultRandom().primaryKey().notNull(), // Use UUID for consistency
     name: varchar('name', { length: 255 }).notNull(),
+    images: text('images').array().notNull(),
     slug: varchar('slug', { length: 255 }).notNull().unique(),
     description: text('description').notNull(),
     date: timestamp('date').notNull(),
@@ -245,3 +247,33 @@ export const events = pgTable("events", {
     isFeatured: boolean('is_featured').default(false),
     createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+// BOOKINGS
+export const bookings = pgTable('bookings', {
+  id: uuid('id').notNull().defaultRandom().primaryKey(), // Unique identifier for each booking
+    userId: uuid('userId').references(() => users.id, {
+    onDelete: 'cascade', // Automatically delete bookings if the user is deleted
+    }),
+    eventId: uuid('eventId').references(() => events.id, {
+    onDelete: 'cascade', // Automatically delete bookings if the event is deleted
+    }),
+  qty: numeric('qty', { precision: 10, scale: 0 }).notNull(), // Number of tickets booked
+  totalPrice: numeric('totalPrice', { precision: 12, scale: 2 }).notNull(), // Total price for the booking
+  createdAt: timestamp('createdAt').notNull().defaultNow(), // Timestamp when the booking was created
+  updatedAt: timestamp('updatedAt').notNull().defaultNow().$onUpdateFn(() => new Date()), // Timestamp for the last update
+  bookingDetails: json('bookingDetails').$type<Record<string, any>>().notNull().default({}), // JSON field for any additional booking details
+});
+
+// EVENT REGISTRATION 
+export const eventRegistrations = pgTable('event_registrations', {
+    id: uuid('id').notNull().defaultRandom().primaryKey(),
+    eventId: uuid('eventId').notNull(),
+    userId: uuid('userId').references(() => users.id, {
+    onDelete: 'cascade',
+    }),
+    name: text('name').notNull(),
+    email: text('email').notNull(),
+    paymentMethod: text('paymentMethod').notNull(),
+    createdAt: timestamp('createdAt').notNull().defaultNow(),
+});
+

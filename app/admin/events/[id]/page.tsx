@@ -1,9 +1,9 @@
 'use client'; // Ensure this component is a Client Component
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation'; // Correctly import useParams
+import { useParams } from 'next/navigation';
 import { getEventById } from '@/lib/actions/event.actions';
-import UpdateEventForm from './update-event-form';
+import EventForm from '@/components/shared/admin/event-form'
 import { Event } from '@/types';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -43,9 +43,9 @@ const AdminEventPage = () => {
     }
 
     return (
-        <div>
+        <div className="space-y-8 max-w-5xl mx-auto">
             <h1 className="text-2xl font-bold">Update Event</h1>
-            <UpdateEventForm event={event} eventId={id as string} />
+            <EventForm type="Update" event={event} eventId={id as string} /> {/* Use EventForm instead of UpdateEventForm */}
         </div>
     );
 };

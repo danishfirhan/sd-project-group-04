@@ -67,14 +67,16 @@ return (
                     variant="outline"
                     type="button"
                     onClick={() =>
-                        startTransition(async () => {
-                        const res = await removeItemFromCart(item.productId)
-                        if (!res.success) {
+                        startTransition(() => {
+                        (async () => {
+                            const res = await removeItemFromCart(item.productId)
+                            if (!res.success) {
                             toast({
-                            variant: 'destructive',
-                            description: res.message,
+                                variant: 'destructive',
+                                description: res.message,
                             })
-                        }
+                            }
+                        })()
                         })
                     }
                     >
@@ -90,19 +92,21 @@ return (
                     variant="outline"
                     type="button"
                     onClick={() =>
-                        startTransition(async () => {
-                        const res = await addItemToCart(item)
-                        if (!res.success) {
+                        startTransition(() => {
+                        (async () => {
+                            const res = await addItemToCart(item)
+                            if (!res.success) {
                             toast({
-                            variant: 'destructive',
-                            description: res.message,
+                                variant: 'destructive',
+                                description: res.message,
                             })
-                        }
+                            }
+                        })()
                         })
                     }
                     >
                     {isPending ? (
-                        <Loader className="w-4 h-4  animate-spin" />
+                        <Loader className="w-4 h-4 animate-spin" />
                     ) : (
                         <Plus className="w-4 h-4" />
                     )}

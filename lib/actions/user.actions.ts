@@ -191,6 +191,41 @@ try {
     return { success: false, message: formatError(error) }
 }
 }
+export async function updateUserEventPaymentMethod(data: { type: string, eventId: string }) {
+    try {
+        // Authenticate user session
+        const session = await auth();
+        if (!session?.user?.id) {
+            return { success: false, message: 'Not authenticated' };
+        }
+
+        // Retrieve the current user from the database
+        const currentUser = await db.query.users.findFirst({
+            where: (users, { eq }) => eq(users.id, session.user.id!),
+        });
+        if (!currentUser) throw new Error('User not found');
+
+        // Validate and parse payment method
+        const paymentMethod = paymentMethodSchema.parse(data);
+
+        // Update the payment method for event payments
+        await db
+            .update(users)
+            .set({ paymentMethod: paymentMethod.type })
+            .where(eq(users.id, currentUser.id));
+
+        // Optionally revalidate paths if needed
+        revalidatePath('/events');
+
+        return {
+            success: true,
+            message: 'Event payment method updated successfully',
+        };
+    } catch (error) {
+        return { success: false, message: formatError(error) };
+    }
+}
+
 
 export async function updateProfile(user: { name: string; email: string }) {
 try {

@@ -37,16 +37,18 @@ const { toast } = useToast()
 
 const [isPending, startTransition] = useTransition()
 const onSubmit: SubmitHandler<ShippingAddress> = async (values) => {
-startTransition(async () => {
-    const res = await updateUserAddress(values)
-    if (!res.success) {
-    toast({
-        variant: 'destructive',
-        description: res.message,
-    })
-    return
-    }
-    router.push('/payment-method')
+startTransition(() => {
+    (async () => {
+        const res = await updateUserAddress(values)
+        if (!res.success) {
+        toast({
+            variant: 'destructive',
+            description: res.message,
+        })
+        return
+        }
+        router.push('/payment-method')
+    })()
 })
 }
 
