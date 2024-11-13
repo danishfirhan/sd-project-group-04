@@ -31,7 +31,6 @@ type ClientUploadedFileData<T> = {
     uploadedBy?: T;
 };
 
-
 export default function EventForm({
     type,
     event,
@@ -106,13 +105,13 @@ export default function EventForm({
             }
         } catch (error) {
             toast({
-            variant: 'destructive',
+                variant: 'destructive',
                 description: (error as Error).message,
             });
         }
     }
 
-    const images = form.watch('images') || [];
+    const images: string[] = form.watch('images') || [];
 
     return (
         <Form {...form}>
@@ -260,39 +259,39 @@ export default function EventForm({
                     />
                 </div>
                 <div className="flex flex-col gap-5 md:flex-row">
-                    <FormField
-                        control={form.control}
-                        name="images"
-                        render={() => (
-                            <FormItem className="w-full">
-                                <FormLabel>Images</FormLabel>
-                                <Card>
-                                    <CardContent className="space-y-2 mt-2 min-h-48">
-                                        <div className="flex-start space-x-2">
-                                            {images.map((image: string) => (
-                                                <Image
-                                                    key={image}
-                                                    src={image}
-                                                    alt="Event Image"
-                                                    width={100}
-                                                    height={100}
-                                                />
-                                            ))}
-                                        </div>
-                                        <UploadButton
-                                            endpoint="imageUploader"
-                                            onClientUploadComplete={(res: ClientUploadedFileData<{ uploadedBy: string | undefined; }>[]) => {
-                                                const currentImages = form.getValues('images') || [];
-                                                const newImages = res.map(file => file.url);
-                                                form.setValue('images', [...currentImages, ...newImages]);
-                                            }}
-                                        />
-                                    </CardContent>
-                                </Card>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                <FormField
+    control={form.control}
+    name="images"
+    render={() => (
+        <FormItem className="w-full">
+            <FormLabel>Images</FormLabel>
+            <Card>
+                <CardContent className="space-y-2 mt-2 min-h-48">
+                    <div className="flex-start space-x-2">
+                        {images.map((image: string) => (
+                            <Image
+                                key={image}
+                                src={image}
+                                alt="Event Image"
+                                width={100}
+                                height={100}
+                            />
+                        ))}
+                    </div>
+                    <UploadButton
+                        endpoint="imageUploader"
+                        onClientUploadComplete={(res: ClientUploadedFileData<{ uploadedBy: string | undefined; }>[]) => {
+                            const currentImages = form.getValues('images') || [];
+                            const newImages = res.map(file => file.url);
+                            form.setValue('images', [...currentImages, ...newImages]);
+                                                }}
+                                            />
+                                        </CardContent>
+                                    </Card>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                 </div>
                 <FormField
                     control={form.control}

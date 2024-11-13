@@ -67,7 +67,7 @@ export async function signInWithCredentials(
         password: formData.get('password'),
     })
     await signIn('credentials', user)
-    return { success: true, message: 'Sig in successfully' }
+    return { success: true, message: 'Sign in successfully' }
     } catch (error) {
     if (isRedirectError(error)) {
         throw error

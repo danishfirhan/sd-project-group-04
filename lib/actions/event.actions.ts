@@ -7,7 +7,7 @@ import { PAGE_SIZE } from '../constants';
 import { revalidatePath } from 'next/cache';
 import { formatError } from '../utils';
 import db from '@/db/drizzle';
-import { events, eventBookings, eventRegistrations } from '@/db/schema';
+import { events, eventBookings } from '@/db/schema';
 import { z } from 'zod';
 import { insertEventSchema, updateEventSchema, eventRegistrationSchema } from '../validator';
 import { auth } from '@/auth';
@@ -193,7 +193,12 @@ export async function deleteEvent(id: string) {
 export const registerForEvent = async (data: z.infer<typeof eventRegistrationSchema>) => {
     try {
     const validatedData = eventRegistrationSchema.parse(data);
-    await db.insert(eventRegistrations).values(validatedData);
+    await db.insert(eventBookings).values({
+        ...validatedData,
+        userId: validatedData.userId, // Ensure userId is included
+        totalPrice: validatedData.totalPrice,
+        eventName: validatedData.eventName, // Ensure eventName is included
+    });
     return { success: true, message: 'Registration successful' };
     } catch (error) {
     return { success: false, message: formatError(error) };
@@ -224,6 +229,7 @@ try {
         totalPrice: (selectedTicketQuantity * parseFloat(selectedEvent.ticketPrice)).toString(), // Calculate total price based on ticket price
         name: user.name, // Add the name property
         email: user.email, // Add the email property
+        eventName: selectedEvent.name, // Add the eventName property
     }
 
     const insertedBookingId = await db.transaction(async (tx) => {

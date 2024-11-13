@@ -166,8 +166,11 @@ export const insertBookingSchema = z.object({
 
 // EVENT REGISTRATION 
 export const eventRegistrationSchema = z.object({
+    userId: z.string(), // Add userId property
     eventId: z.string().min(1, 'Event ID is required'),
     name: z.string().min(1, 'Name is required'),
     email: z.string().email('Invalid email address'),
     paymentMethod: z.string().min(1, 'Payment method is required'),
+    totalPrice: z.string(), // Add totalPrice to the schema
+    eventName: z.string().min(1, 'Event name is required'),
 });

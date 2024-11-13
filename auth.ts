@@ -52,14 +52,14 @@ CredentialsProvider({
     }
     return null
     },
-}),
-Resend({
-    name: 'Email',
-    from: `${APP_NAME} <${SENDER_EMAIL}>`,
-    id: 'email',
-}),
-],
-callbacks: {
+    }),
+    Resend({
+        name: 'Email',
+        from: `${APP_NAME} <${SENDER_EMAIL}>`,
+        id: 'email',
+    }),
+    ],
+    callbacks: {
 
     jwt: async ({ token, user, trigger, session }: any) => {
     if (user) {

@@ -29,8 +29,10 @@ export const users = pgTable(
         image: text('image'),
         address: json('address').$type<ShippingAddress>(),
         paymentMethod: text('paymentMethod'),
-        resetToken: text('resetToken'), // New field for the reset token
-        resetTokenExpiry: timestamp('resetTokenExpiry', { mode: 'date' }), // New field for reset token expiry
+        resetToken: text('resetToken'),
+        resetTokenExpiry: timestamp('resetTokenExpiry', { mode: 'date' }),
+        isVerified: boolean('isVerified').default(false), // New field for verification status
+        verificationToken: text('verificationToken'), // New field for verification token
         createdAt: timestamp('createdAt').defaultNow(),
     },
     (table) => {
@@ -236,34 +238,6 @@ export const feedbacks = pgTable("feedbacks", {
 });
 
 
-// BOOKINGS
-export const bookings = pgTable('bookings', {
-  id: uuid('id').notNull().defaultRandom().primaryKey(), // Unique identifier for each booking
-    userId: uuid('userId').references(() => users.id, {
-    onDelete: 'cascade', // Automatically delete bookings if the user is deleted
-    }),
-    eventId: uuid('eventId').references(() => events.id, {
-    onDelete: 'cascade', // Automatically delete bookings if the event is deleted
-    }),
-  qty: numeric('qty', { precision: 10, scale: 0 }).notNull(), // Number of tickets booked
-  totalPrice: numeric('totalPrice', { precision: 12, scale: 2 }).notNull(), // Total price for the booking
-  createdAt: timestamp('createdAt').notNull().defaultNow(), // Timestamp when the booking was created
-  updatedAt: timestamp('updatedAt').notNull().defaultNow().$onUpdateFn(() => new Date()), // Timestamp for the last update
-  bookingDetails: json('bookingDetails').$type<Record<string, any>>().notNull().default({}), // JSON field for any additional booking details
-});
-
-export const eventRegistrations = pgTable('event_registrations', {
-    id: uuid('id').notNull().defaultRandom().primaryKey(),
-    eventId: uuid('eventId').notNull(),
-    userId: uuid('userId').references(() => users.id, {
-    onDelete: 'cascade',
-    }),
-    name: text('name').notNull(),
-    email: text('email').notNull(),
-    paymentMethod: text('paymentMethod').notNull(),
-    createdAt: timestamp('createdAt').notNull().defaultNow(),
-});
-
 
 // EVENTS
 export const events = pgTable("events", {
@@ -283,6 +257,9 @@ export const events = pgTable("events", {
 export const eventBookings = pgTable('event_bookings', {
     id: uuid('id').notNull().defaultRandom().primaryKey(), // Unique identifier for each booking
     eventId: uuid('eventId').notNull().references(() => events.id, {
+        onDelete: 'cascade', // Cascade delete if the event is deleted
+    }),
+    eventName: text('eventName').notNull().references(() => events.name, {
         onDelete: 'cascade', // Cascade delete if the event is deleted
     }),
     userId: uuid('userId').notNull().references(() => users.id, {

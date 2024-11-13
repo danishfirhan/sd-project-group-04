@@ -29,3 +29,15 @@ export const sendResetPasswordEmail = async ({
         react: <ResetPasswordEmail user={user} resetLink={resetLink} />,
     })
 }
+
+export const sendVerificationEmail = async (email: string, token: string) => {
+    const resend = new Resend();
+    const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/verify-email?token=${token}`;
+    
+    await resend.emails.send({
+        to: email,
+        from: `${APP_NAME} <no-reply@${process.env.NEXT_PUBLIC_DOMAIN}>`,
+        subject: 'Verify your email',
+        html: `<p>Please verify your email by clicking the link: <a href="${verificationLink}">Verify Email</a></p>`,
+    });
+};
