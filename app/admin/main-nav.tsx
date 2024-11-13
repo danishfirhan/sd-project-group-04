@@ -31,6 +31,10 @@ title: 'Events',
 href: '/admin/events',
 },
 {
+    title: 'Bookings',
+    href: '/admin/bookings',
+},
+{
 title: 'Settings',
 href: '/admin/settings',
 },
