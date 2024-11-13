@@ -31,6 +31,10 @@ export const addItemToBookings = async ({ eventId, qty }: { eventId: string; qty
         // You might want to retrieve user details from the session or context
         const userId = 'example-user-id'; // Replace with actual user ID from session/context
 
+        // You would typically fetch the event details to get the price
+        const eventPrice = 100.00; // Replace with actual price retrieval logic
+        const totalPrice = (eventPrice * qty).toString();
+
         // Create a new booking entry
         const newBooking = {
             eventId,
@@ -39,7 +43,7 @@ export const addItemToBookings = async ({ eventId, qty }: { eventId: string; qty
             name: 'John Doe', // Replace with actual user name retrieval
             email: 'john.doe@example.com', // Replace with actual user email retrieval
             paymentMethod: 'Credit Card', // Replace with actual payment method
-            totalPrice: '100.00', // Replace with actual total price calculation
+            totalPrice,
             bookingDate: new Date(),
             status: 'pending',
         };
