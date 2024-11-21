@@ -39,6 +39,7 @@ import { insertProductSchema, updateProductSchema } from '../validator'
     } catch (error) {
         return { success: false, message: formatError(error) }
     }
+    
     }
     // GET
     export async function getProductById(productId: string) {

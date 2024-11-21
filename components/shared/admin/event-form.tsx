@@ -24,7 +24,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useEffect } from 'react';
 
-// Define the ClientUploadedFileData type
 type ClientUploadedFileData<T> = {
     url: string;
     key: string;
@@ -48,17 +47,16 @@ export default function EventForm({
         defaultValues: event && type === 'Update'
             ? {
                 ...event,
+                title: event.name, 
                 ticketPrice: Number(event.ticketPrice),
                 availableTickets: Number(event.availableTickets),
                 isFeatured: event.isFeatured || false,
-                date: new Date(event.date), // Convert back to Date object
-                time: event.date.toISOString().split('T')[1].slice(0, 5), // Ensure this is a string
+                date: new Date(event.date), 
             }
             : {
                 title: '',
                 slug: '',
-                date: new Date(), // Set as Date object
-                time: new Date().toISOString().split('T')[1].slice(0, 5), // Set as string
+                date: new Date(), 
                 venue: '',
                 ticketPrice: 0,
                 availableTickets: 0,
@@ -70,20 +68,23 @@ export default function EventForm({
 
     useEffect(() => {
         if (event && type === 'Update') {
-            form.setValue('date', new Date(event.date.toISOString().split('T')[0])); // Ensure date is set as Date object
-            form.setValue('time', event.date.toISOString().split('T')[1].slice(0, 5)); // Ensure time is set as string
+            form.setValue('date', new Date(event.date.toISOString().split('T')[0])); 
         }
     }, [event, type, form]);
 
-    async function onSubmit(values: z.infer<typeof insertEventSchema>) {
+    const onSubmit = async (values: z.infer<typeof insertEventSchema>) => {
         const formattedValues = {
             ...values,
-            ticketPrice: Number(values.ticketPrice),
-            availableTickets: Number(values.availableTickets),
-            date: new Date(`${values.date}T${values.time}`), // Convert to Date object for backend
+            name: values.title, 
+            ticketPrice: Number(values.ticketPrice), // Ensure ticketPrice is a number
+            availableTickets: Number(values.availableTickets), // Ensure availableTickets is a number
+            date: new Date(values.date), 
         };
 
         try {
+            // Disable the submit button during submission
+            form.formState.isSubmitting = true;
+
             if (type === 'Create') {
                 const res = await createEvent(formattedValues);
                 if (!res.success) {
@@ -108,8 +109,11 @@ export default function EventForm({
                 variant: 'destructive',
                 description: (error as Error).message,
             });
+        } finally {
+            // Re-enable the submit button after submission
+            form.formState.isSubmitting = false;
         }
-    }
+    };
 
     const images: string[] = form.watch('images') || [];
 
@@ -186,26 +190,6 @@ export default function EventForm({
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="time"
-                        render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormLabel>Time</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="time"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        onBlur={field.onBlur}
-                                        name={field.name}
-                                        ref={field.ref}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
                 </div>
                 <div className="flex flex-col gap-5 md:flex-row">
                     <FormField
@@ -234,6 +218,7 @@ export default function EventForm({
                                         type="number"
                                         placeholder="Enter ticket price"
                                         {...field}
+                                        onChange={e => field.onChange(Number(e.target.value) || 0)} // Convert to number
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -251,6 +236,7 @@ export default function EventForm({
                                         type="number"
                                         placeholder="Enter available tickets"
                                         {...field}
+                                        onChange={e => field.onChange(Number(e.target.value) || 0)} // Convert to number
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -259,60 +245,56 @@ export default function EventForm({
                     />
                 </div>
                 <div className="flex flex-col gap-5 md:flex-row">
-                <FormField
-    control={form.control}
-    name="images"
-    render={() => (
-        <FormItem className="w-full">
-            <FormLabel>Images</FormLabel>
-            <Card>
-                <CardContent className="space-y-2 mt-2 min-h-48">
-                    <div className="flex-start space-x-2">
-                        {images.map((image: string) => (
-                            <Image
-                                key={image}
-                                src={image}
-                                alt="Event Image"
-                                width={100}
-                                height={100}
-                            />
-                        ))}
-                    </div>
-                    <UploadButton
-                        endpoint="imageUploader"
-                        onClientUploadComplete={(res: ClientUploadedFileData<{ uploadedBy: string | undefined; }>[]) => {
-                            const currentImages = form.getValues('images') || [];
-                            const newImages = res.map(file => file.url);
-                            form.setValue('images', [...currentImages, ...newImages]);
-                                                }}
-                                            />
-                                        </CardContent>
-                                    </Card>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                    <FormField
+                        control={form.control}
+                        name="images"
+                        render={() => (
+                            <FormItem className="w-full">
+                                <FormLabel>Images</FormLabel>
+                                <Card>
+                                    <CardContent className="space-y-2 mt-2 min-h-48">
+                                        <div className="flex-start space-x-2">
+                                            {images.map((image: string) => (
+                                                <Image
+                                                    key={image}
+                                                    src={image}
+                                                    alt="Event Image"
+                                                    width={100}
+                                                    height={100}
+                                                />
+                                            ))}
+                                        </div>
+                                        <UploadButton
+                                            endpoint="imageUploader"
+                                            onClientUploadComplete={(res: ClientUploadedFileData<{ uploadedBy: string | undefined; }>[]) => {
+                                                const currentImages = form.getValues('images') || [];
+                                                const newImages = res.map(file => file.url);
+                                                form.setValue('images', [...currentImages, ...newImages]);
+                                            }}
+                                        />
+                                    </CardContent>
+                                </Card>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                 </div>
                 <FormField
-                    control={form.control}
+                    control={form .control}
                     name="description"
                     render={({ field }) => (
                         <FormItem className="w-full">
                             <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Textarea
-                                    placeholder="Enter event description"
-                                    rows={4}
-                                    {...field}
-                                />
+                                <Textarea placeholder="Enter event description" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <div className="flex justify-end">
+                <div className="flex justify-end space-x-2">
                     <Button type="submit" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? 'Submitting...' : (type === 'Create' ? 'Create Event' : 'Update Event')}
+                        {type === 'Create' ? 'Create Event' : 'Update Event'}
                     </Button>
                 </div>
             </form>

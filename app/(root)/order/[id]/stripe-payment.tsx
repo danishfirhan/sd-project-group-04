@@ -34,23 +34,26 @@ const StripeForm = () => {
     if (stripe == null || elements == null || email == null) return
     setIsLoading(true)
     stripe
-        .confirmPayment({
+    .confirmPayment({
         elements,
         confirmParams: {
-            return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/order/${orderId}/stripe-payment-success`,
+        return_url: `${
+            process.env.NEXT_PUBLIC_SERVER_URL || 'https://musicrecords2u.vercel.app'
+        }/order/${orderId}/stripe-payment-success`,
         },
-        })
-        .then(({ error }) => {
+    })
+    .then(({ error }) => {
         if (
-            error.type === 'card_error' ||
-            error.type === 'validation_error'
+        error?.type === 'card_error' ||
+        error?.type === 'validation_error'
         ) {
-            setErrorMessage(error.message)
+        setErrorMessage(error.message)
         } else {
-            setErrorMessage('An unknown error occurred')
+        setErrorMessage('An unknown error occurred')
         }
-        })
-        .finally(() => setIsLoading(false))
+    })
+    .finally(() => setIsLoading(false));
+
     }
     return (
     <form onSubmit={handleSubmit} className="space-y-4">

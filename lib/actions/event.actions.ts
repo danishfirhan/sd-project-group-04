@@ -29,7 +29,6 @@ export async function createEvent(data: z.infer<typeof insertEventSchema>) {
             description: event.description || '', // Default to empty string if not provided
             date: new Date(event.date), // Convert to Date
             venue: event.venue,
-            organizer: event.organizer, // Ensure organizer is included
             ticketPrice: event.ticketPrice.toString(), // Convert ticketPrice to string
             availableTickets: event.availableTickets, // Now availableTickets is included
         };
@@ -150,27 +149,6 @@ export async function getAllEvents({
     };
 }
 
-// GET Event of the Day
-export async function getEventOfTheDay() {
-    const eventOfTheDay = await db.query.events.findFirst({
-        where: eq(events.isFeatured, true),
-        orderBy: [desc(events.date)],
-    });
-
-    if (eventOfTheDay) {
-        return {
-            id: eventOfTheDay.id,
-            title: eventOfTheDay.name,
-            description: eventOfTheDay.description,
-            date: eventOfTheDay.date,
-            venue: eventOfTheDay.venue,
-            coverImage: eventOfTheDay.images?.[0] || undefined,
-        };
-    }
-
-    return null;
-}
-
 // DELETE Event
 export async function deleteEvent(id: string) {
     try {
@@ -204,7 +182,7 @@ export const registerForEvent = async (data: z.infer<typeof eventRegistrationSch
     return { success: false, message: formatError(error) };
 }
 };
-//export async function createEventBooking(data: { name: string; email: string; eventId: string }) {
+
 export const createEventBooking = async () => {
 try {
     const session = await auth()
