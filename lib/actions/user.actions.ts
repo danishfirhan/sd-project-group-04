@@ -24,37 +24,47 @@ import { PAGE_SIZE } from '../constants'
 
 // USER
 export async function signUp(prevState: unknown, formData: FormData) {
-try {
-const user = signUpFormSchema.parse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    confirmPassword: formData.get('confirmPassword'),
-    password: formData.get('password'),
-})
-const values = {
-    id: crypto.randomUUID(),
-    ...user,
-    password: hashSync(user.password, 10),
-}
-await db.insert(users).values(values)
-await signIn('credentials', {
-    email: user.email,
-    password: user.password,
-})
-return { success: true, message: 'User created successfully' }
-} catch (error) {
-if (isRedirectError(error)) {
-    throw error
-}
-return {
-    success: false,
-    message: formatError(error).includes(
-    'duplicate key value violates unique constraint "user_email_idx"'
-    )
-    ? 'Email is already exist'
-    : formatError(error),
-}
-}
+    try {
+        const user = signUpFormSchema.parse({
+            name: formData.get('name'),
+            email: formData.get('email'),
+            confirmPassword: formData.get('confirmPassword'),
+            password: formData.get('password'),
+        });
+        
+        const values = {
+            id: crypto.randomUUID(),
+            ...user,
+            password: hashSync(user.password, 10),
+        };
+        
+        await db.insert(users).values(values);
+        
+        // Sign in without redirecting
+        const signInResult = await signIn('credentials', {
+            email: user.email,
+            password: user.password,
+            redirect: false, // Prevent automatic redirection
+        });
+
+        if (signInResult?.error) {
+            return { success: false, message: signInResult.error };
+        }
+
+        return { success: true, message: 'User  created successfully' };
+    } catch (error) {
+        if (isRedirectError(error)) {
+            throw error;
+        }
+        return {
+            success: false,
+            message: formatError(error).includes(
+                'duplicate key value violates unique constraint "user_email_idx"'
+            )
+            ? 'Email already exists'
+            : formatError(error),
+        };
+    }
 }
 export async function signInWithCredentials(
     prevState: unknown,
