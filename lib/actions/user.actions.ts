@@ -48,10 +48,10 @@ export async function signUp(prevState: unknown, formData: FormData) {
         });
 
         if (signInResult?.error) {
-            return { success: false, message: signInResult.error };
+            return { success: false, message: signInResult.error, stay: true };
         }
 
-        return { success: true, message: 'User  created successfully' };
+        return { success: true, message: 'User created successfully', stay: true };
     } catch (error) {
         if (isRedirectError(error)) {
             throw error;
@@ -63,6 +63,7 @@ export async function signUp(prevState: unknown, formData: FormData) {
             )
             ? 'Email already exists'
             : formatError(error),
+            stay: true,
         };
     }
 }

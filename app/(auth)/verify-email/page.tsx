@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
 import {
     Card,
@@ -16,17 +15,9 @@ export const metadata: Metadata = {
     title: `Email Verified - ${APP_NAME}`,
 }
 
-export default async function VerifyEmail({
-    searchParams: { callbackUrl },
-}: {
-    searchParams: {
-        callbackUrl: string
-    }
-}) {
-    const session = await auth()
-    if (session) {
-        return redirect(callbackUrl || '/')
-    }
+export default async function VerifyEmail() {
+    // Get the session, but do not redirect
+    await auth();
 
     return (
         <div className="w-full max-w-md mx-auto">

@@ -14,7 +14,7 @@ const mailOptions = {
     from: 'no-reply@musicrecords2u.com', // Replace with your email
     to: 'danishfirhan69420@gmail.com', // Replace with the recipient's email
     subject: 'Email Verification',
-    text: 'Hello,\n\nThank you for registering with Music Records 2U! Please verify your email address by clicking the link below:\n\nhttps://musicrecords2u.vercel.app/verify-email\n\nIf you did not create an account, please ignore this email.\n\nThank you!',
+    text: 'Hello,\n\nThank you for registering with Music Records 2U! Please verify your email address by clicking the link below:\n\nhttp://localhost:3000/verify-email/\n\nIf you did not create an account, please ignore this email.\n\nThank you!',
     // If you want to send HTML content instead, you can use the 'html' property
     // html: '<p>Hello,</p><p>Thank you for registering with Music Records 2U! Please verify your email address by clicking the link below:</p><a href="https://musicrecords2u.vercel.app/verify-email">Verify Email</a><p>If you did not create an account, please ignore this email.</p>',
 };
