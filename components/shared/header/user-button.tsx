@@ -56,13 +56,14 @@ return (
             </Link>
         </DropdownMenuItem>
 
-        {session.user.role === 'admin' || session.user.role === 'staff' && (
-            <DropdownMenuItem>
+        {(session.user.role === 'admin' || session.user.role === 'staff') && (
+        <DropdownMenuItem>
             <Link className="w-full" href="/admin/overview">
-                Admin
+            Admin
             </Link>
-            </DropdownMenuItem>
+        </DropdownMenuItem>
         )}
+
 
         <DropdownMenuItem className="p-0 mb-1">
             <form action={SignOut} className="w-full">

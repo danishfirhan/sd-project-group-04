@@ -21,7 +21,6 @@ import { count, desc, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { PAGE_SIZE } from '../constants'
-import { sendResetPasswordEmail } from '@/email'
 
 // USER
 export async function signUp(prevState: unknown, formData: FormData) {
@@ -320,24 +319,12 @@ export const resetPassword = async ({ token, newPassword }: ResetPasswordParams)
     }
 };
 
-export const sendResetPasswordLink = async (user: { name: string; email: string }) => {
-  // Generate a unique token and link
-    const resetToken = crypto.randomUUID()
-    const resetLink = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${resetToken}`
-
-  // Optionally save the reset token and timestamp to your database here for validation later
-
-  // Send the reset password email
-    await sendResetPasswordEmail({ user, resetLink })
-}
 
 export const getUserByEmail = async (email: string) => {
     return await db.query.users.findFirst({
     where: (users, { eq }) => eq(users.email, email),
     });
 };
-
-
 
 
 // CREATE

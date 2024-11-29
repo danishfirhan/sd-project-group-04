@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
 import { SENDER_EMAIL, APP_NAME } from '@/lib/constants'
-import ResetPasswordEmail from './reset-password'
+import ResetPasswordEmail from './reset-password-email';
 import PurchaseReceiptEmail from './purchase-receipt'
 import { Order } from '@/types'
 
@@ -15,20 +15,14 @@ export const sendPurchaseReceipt = async ({ order }: { order: Order }) => {
     })
 }
 
-export const sendResetPasswordEmail = async ({
-    user,
-    resetLink,
-    }: {
-    user: { name: string; email: string }
-    resetLink: string
-    }) => {
+export const sendResetPasswordEmail = async (user: { name: string; email: string }) => {
     await resend.emails.send({
-        from: `${APP_NAME} <${SENDER_EMAIL}>`,
+        from: `Your App <your-email@example.com>`,
         to: user.email,
         subject: 'Password Reset Request',
-        react: <ResetPasswordEmail user={user} resetLink={resetLink} />,
-    })
-}
+        react: <ResetPasswordEmail user={user} />,
+    });
+};
 
 export const sendVerificationEmail = async (email: string, token: string) => {
     const resend = new Resend();

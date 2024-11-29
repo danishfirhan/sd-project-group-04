@@ -5,52 +5,39 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 
-// Function to send the reset link via the API route
-const sendResetLink = async (email: string) => {
-    try {
-        const response = await fetch('/api/send-reset-link', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email }), // Send email to the API route
-        });
+// Simulate sending the reset link via the API route
+const sendResetPasswordEmail = async (email: string) => {
+    // Simulate API request
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds to simulate API request
 
-        // Check if the response is ok (status code 2xx)
-        if (!response.ok) {
-            const data = await response.json();
-            return { success: false, message: data.message || 'Failed to send reset link.' };
-        }
+    console.log(`Sending password reset link to ${email}`); // Use the email parameter
 
-        return { success: true };
-    } catch (error) {
-        return { success: false, message: 'An error occurred while sending the reset link.' };
-    }
+    return { success: true };
 };
 
-const ForgotPassword = () => {
+const RequestResetPassword = () => {
     const [email, setEmail] = useState('');
     const [isSuccess, setIsSuccess] = useState(false); // State to manage success message visibility
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-    
-        // Call the API to send the password reset link
-        await sendResetLink(email); // API request to send the reset link
-    
-        // Set success state even if there was an error
+
+        // Simulate sending the password reset email
+        await sendResetPasswordEmail(email); // Simulated API request to send the reset link
+
+        // Set success state
         setIsSuccess(true);
-    
         toast({
             description: 'Password reset link has been sent! Please check your email.',
         });
+        setEmail(''); // Clear the email input
     };
 
     return (
         <div className="w-full max-w-md mx-auto">
             <Card>
                 <CardHeader className="space-y-4">
-                    <CardTitle className="text-center">Forgot Password</CardTitle>
+                    <CardTitle className="text-center">Request Password Reset</CardTitle>
                     <CardDescription className="text-center">
                         Enter your email to receive a password reset link.
                     </CardDescription>
@@ -80,4 +67,4 @@ const ForgotPassword = () => {
     );
 };
 
-export default ForgotPassword;
+export default RequestResetPassword;
